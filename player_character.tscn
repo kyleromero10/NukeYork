@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://ihy20q4diyvv"]
+
+[ext_resource type="Script" uid="uid://1wa6oiqw73x4" path="res://Scripts/PlayerCharacter.cs" id="1_02ohv"]
+[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_5up26"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0hvvw"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("MultiplayerSynchronizer:IsNetworkReady")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("MultiplayerSynchronizer:IsSynced")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("MultiplayerSynchronizer:OwnerId")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1368834784]
+script = ExtResource("1_02ohv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=294175615]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2122338441]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=815040872]
+replication_config = SubResource("SceneReplicationConfig_0hvvw")
+script = ExtResource("2_5up26")
+
+[node name="DamageEmitter" type="Area2D" parent="." unique_id=1561237131]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageEmitter" unique_id=2144241513]
+debug_color = Color(0.8493704, 0.3493687, 0.36110085, 0.41960785)
