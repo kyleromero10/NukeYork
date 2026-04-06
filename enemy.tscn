@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://ihy20q4diyvv"]
+[gd_scene format=3 uid="uid://dnbsg2lsr4ix4"]
 
-[ext_resource type="Script" uid="uid://1wa6oiqw73x4" path="res://Scripts/PlayerCharacter.cs" id="1_02ohv"]
-[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_5up26"]
-[ext_resource type="PackedScene" uid="uid://cubtmf48yvb8v" path="res://damage_emitter.tscn" id="3_0hvvw"]
-[ext_resource type="PackedScene" uid="uid://bqk3y1qknpjof" path="res://damage_receiver.tscn" id="4_6qc1w"]
+[ext_resource type="Script" uid="uid://bxveimemksbgj" path="res://Enemy.cs" id="1_iifgy"]
+[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_epg4t"]
+[ext_resource type="PackedScene" uid="uid://cubtmf48yvb8v" path="res://damage_emitter.tscn" id="3_3yqyl"]
+[ext_resource type="PackedScene" uid="uid://bqk3y1qknpjof" path="res://damage_receiver.tscn" id="4_wujgv"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0hvvw"]
 properties/0/path = NodePath(".:position")
@@ -28,11 +28,10 @@ properties/6/path = NodePath(".:SyncedVelocity")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
-[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1368834784]
-collision_layer = 2
-collision_mask = 9
-script = ExtResource("1_02ohv")
-speed = 200.0
+[node name="Enemy" type="CharacterBody2D" unique_id=1368834784]
+collision_layer = 4
+collision_mask = 13
+script = ExtResource("1_iifgy")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1509948933]
 
@@ -40,15 +39,15 @@ speed = 200.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=815040872]
 replication_config = SubResource("SceneReplicationConfig_0hvvw")
-script = ExtResource("2_5up26")
+script = ExtResource("2_epg4t")
 
-[node name="DamageEmitter" parent="." unique_id=1450132725 instance=ExtResource("3_0hvvw")]
-collision_mask = 96
+[node name="DamageEmitter" parent="." unique_id=1450132725 instance=ExtResource("3_3yqyl")]
+collision_mask = 16
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=498136880]
 
-[node name="DamageReceiver" parent="." unique_id=647142023 instance=ExtResource("4_6qc1w")]
-collision_layer = 2
+[node name="DamageReceiver" parent="." unique_id=647142023 instance=ExtResource("4_wujgv")]
+collision_layer = 4
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]
