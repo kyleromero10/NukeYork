@@ -58,8 +58,12 @@ text = "Client"
 [node name="Level" parent="." unique_id=52488993 instance=ExtResource("3_ma6ta")]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Level" unique_id=1225884149]
+_spawnable_scenes = PackedStringArray("uid://dps0pbrk38pa")
 spawn_path = NodePath("..")
 script = ExtResource("2_bxsma")
+SpawnInexZeroOnConnect = true
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="CreateLocalGame"]
 [connection signal="pressed" from="CanvasLayer/Button2" to="." method="JoinGame"]
+
+[editable path="Level"]

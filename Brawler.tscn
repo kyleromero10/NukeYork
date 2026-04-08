@@ -8,7 +8,7 @@ radius = 3.0
 height = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2coch"]
-size = Vector2(20, 6)
+size = Vector2(27, 9)
 
 [sub_resource type="Animation" id="Animation_sb8yw"]
 resource_name = "HeavyAttack"
@@ -33,11 +33,59 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1.5),
+"times": PackedFloat32Array(1.4),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"AttackComplete"
+"method": &"ActionComplete"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"SetMonitorRPC"
+}, {
+"args": [],
+"method": &"SetMonitor"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_5xatc"]
+resource_name = "Hurt"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [28]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ActionComplete"
 }]
 }
 
@@ -86,7 +134,7 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"AttackComplete"
+"method": &"ActionComplete"
 }]
 }
 tracks/2/type = "method"
@@ -143,6 +191,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sb8yw"]
 _data = {
 &"HeavyAttack": SubResource("Animation_sb8yw"),
+&"Hurt": SubResource("Animation_5xatc"),
 &"Idle": SubResource("Animation_4pgcy"),
 &"LightAttack": SubResource("Animation_11kcc"),
 &"RESET": SubResource("Animation_kysht"),
@@ -150,9 +199,9 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pgcy"]
-size = Vector2(20, 6)
+size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") instance=ExtResource("1_qtwdr")]
+[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 myId = NodePath("MultiplayerSynchronizer")
 animPlayer = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
@@ -169,19 +218,20 @@ position = Vector2(0, 29)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_67b3l")
 
-[node name="CollisionShape2D" parent="DamageEmitter" parent_id_path=PackedInt32Array(1561237131) index="0" unique_id=2144241513]
-position = Vector2(17, 29)
+[node name="CollisionShape2D" parent="DamageEmitter" parent_id_path=PackedInt32Array(1450132725) index="0" unique_id=1348990358]
+position = Vector2(20.5, 27.5)
 shape = SubResource("RectangleShape2D_2coch")
 
 [node name="AnimationPlayer" parent="." index="4" unique_id=498136880]
 libraries/ = SubResource("AnimationLibrary_sb8yw")
 autoplay = &"Idle"
 
-[node name="DamageReceiver" parent="." index="5" unique_id=1780556419]
-monitoring = false
-
-[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=1921797408]
-position = Vector2(0, 29)
+[node name="CollisionShape2D" parent="DamageReceiver" parent_id_path=PackedInt32Array(647142023) index="0" unique_id=369906974]
+position = Vector2(0, 27.5)
 shape = SubResource("RectangleShape2D_4pgcy")
 
-[connection signal="area_entered" from="DamageEmitter" to="." method="onAreaEntered"]
+[connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
+[connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]

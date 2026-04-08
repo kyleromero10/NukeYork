@@ -22,6 +22,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="NetworkTemplate2"
 
+[global_group]
+
+Player=""
+
 [input]
 
 Up={

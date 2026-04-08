@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://dps0pbrk38pa"]
+
+[ext_resource type="PackedScene" uid="uid://dnbsg2lsr4ix4" path="res://enemy.tscn" id="1_5ofjv"]
+[ext_resource type="Texture2D" uid="uid://btm31kv1knqp7" path="res://Enemies/LightEnemy/Sprite/LightEnemySheet.png" id="2_rn2co"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn2co"]
+radius = 3.0
+height = 22.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rn2co"]
+size = Vector2(20, 9)
+
+[sub_resource type="Animation" id="Animation_5spd6"]
+resource_name = "Attack"
+length = 0.6
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 13]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AttackComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rn2co"]
+resource_name = "Death"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [16, 16, 24]
+}
+
+[sub_resource type="Animation" id="Animation_scrn6"]
+resource_name = "Hurt"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AttackComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kinta"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_aa7bk"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mp356"]
+_data = {
+&"Attack": SubResource("Animation_5spd6"),
+&"Death": SubResource("Animation_rn2co"),
+&"Hurt": SubResource("Animation_scrn6"),
+&"RESET": SubResource("Animation_kinta"),
+&"Walk": SubResource("Animation_aa7bk")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5spd6"]
+size = Vector2(19, 9)
+
+[node name="LightEnemy" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") instance=ExtResource("1_5ofjv")]
+myId = NodePath("MultiplayerSynchronizer")
+animPlayer = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
+hitbox = NodePath("DamageEmitter")
+
+[node name="Sprite2D" parent="." index="0" unique_id=1509948933]
+texture_filter = 1
+texture = ExtResource("2_rn2co")
+hframes = 8
+vframes = 4
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=2122338441]
+position = Vector2(4, 29)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_rn2co")
+
+[node name="CollisionShape2D" parent="DamageEmitter" parent_id_path=PackedInt32Array(1450132725) index="0" unique_id=1348990358]
+position = Vector2(16, 27.5)
+shape = SubResource("RectangleShape2D_rn2co")
+
+[node name="AnimationPlayer" parent="." index="4" unique_id=498136880]
+libraries/ = SubResource("AnimationLibrary_mp356")
+autoplay = &"Walk"
+
+[node name="DamageReceiver" parent="." index="5" unique_id=647142023]
+collision_layer = 32
+
+[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
+position = Vector2(3.5, 27.5)
+shape = SubResource("RectangleShape2D_5spd6")
+
+[connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]

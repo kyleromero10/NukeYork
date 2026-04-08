@@ -10,7 +10,8 @@ public partial class PlayerCharacter : CharacterBody2D
     [Export] public Area2D hitbox;
 
     [Export] public string playerName;
-	[Export] public int health;
+	[Export] public int maxHealth;
+    [Export] public int currentHealth;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 300;
     [Export] public Vector2 SyncedVelocity
@@ -58,7 +59,14 @@ public partial class PlayerCharacter : CharacterBody2D
                 Input.GetAxis("Left", "Right"),
                 Input.GetAxis("Up", "Down")
                 );
-            RpcId(1,"MoveMeRPC", myInputAxis);
+            if(CanMove())
+            {
+                RpcId(1,"MoveMeRPC", myInputAxis);
+            }
+            else
+            {
+                RpcId(1,"MoveMeRPC", Vector2.Zero);
+            }
 
             if(Input.IsActionJustPressed("LightAttack") && CanAttack())
             {
@@ -159,9 +167,9 @@ public partial class PlayerCharacter : CharacterBody2D
         }
     }
 
-    public void AttackComplete()
+    public void ActionComplete()
     {
-        RpcId(1,"AttackCompleteRPC");
+        RpcId(1,"ActionCompleteRPC");
     }
 
     public void SetMonitor()
@@ -169,11 +177,22 @@ public partial class PlayerCharacter : CharacterBody2D
         RpcId(1,"SetMonitorRPC");
     }
 
-    public void onAreaEntered(Area2D area)
+    public void onHitboxEntered(DamageReceiver damageReceiver)
     {
         if(GenericCore.Instance.IsServer)
         {
-            GD.Print("Hitbox entered: " + area.Name);
+            damageReceiver.EmitSignal("OnHit", damageMultiplier);
+            GD.Print("Hitbox entered: " + damageReceiver.Name);
+        }
+    }
+
+    public void onHit(int Damage)
+    {
+        if(GenericCore.Instance.IsServer)
+        {
+            state = PlayerState.Hurt;
+            currentHealth -= Damage;
+            GD.Print("Hurtbox entered: ");
         }
     }
 
@@ -194,7 +213,7 @@ public partial class PlayerCharacter : CharacterBody2D
     
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
     TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void AttackCompleteRPC()
+    public void ActionCompleteRPC()
     {
         if (GenericCore.Instance.IsServer)
         {          
