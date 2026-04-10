@@ -30,10 +30,13 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath(".:currentHealth")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath("DamageEmitter:scale")
+properties/8/spawn = true
+properties/8/replication_mode = 1
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1368834784]
 collision_layer = 4
-collision_mask = 13
+collision_mask = 12
 script = ExtResource("1_iifgy")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1509948933]

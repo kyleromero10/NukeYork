@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://612q4dreahqk"]
+
+[ext_resource type="Script" uid="uid://dnfsmjuobhwaw" path="res://Crate.cs" id="1_uep05"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4417n"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_uep05"]
+material = SubResource("StandardMaterial3D_4417n")
+size = Vector3(32, 32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo0jf"]
+size = Vector2(32, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4417n"]
+size = Vector2(32, 5)
+
+[node name="Crate" type="StaticBody2D" unique_id=1648032826]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_uep05")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1321173658]
+modulate = Color(0.48753852, 0.31007013, 0, 1)
+mesh = SubResource("BoxMesh_uep05")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=270820979]
+position = Vector2(0, 13.5)
+shape = SubResource("RectangleShape2D_mo0jf")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2137541828]
+collision_layer = 64
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1609201283]
+position = Vector2(0, 13.5)
+shape = SubResource("RectangleShape2D_4417n")
+debug_color = Color(0, 0.6, 0.19215687, 0.41960785)
+
+[connection signal="area_entered" from="Area2D" to="." method="OnAreaEntered"]

@@ -10,6 +10,23 @@ height = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2coch"]
 size = Vector2(27, 9)
 
+[sub_resource type="Animation" id="Animation_l1uaq"]
+resource_name = "Death"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [70]
+}
+
 [sub_resource type="Animation" id="Animation_sb8yw"]
 resource_name = "HeavyAttack"
 length = 1.4
@@ -51,10 +68,10 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SetMonitorRPC"
+"method": &"SetMonitorTrue"
 }, {
 "args": [],
-"method": &"SetMonitor"
+"method": &"SetMonitorFalse"
 }]
 }
 
@@ -148,10 +165,10 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SetMonitor"
+"method": &"SetMonitorTrue"
 }, {
 "args": [],
-"method": &"SetMonitor"
+"method": &"SetMonitorFalse"
 }]
 }
 
@@ -190,6 +207,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sb8yw"]
 _data = {
+&"Death": SubResource("Animation_l1uaq"),
 &"HeavyAttack": SubResource("Animation_sb8yw"),
 &"Hurt": SubResource("Animation_5xatc"),
 &"Idle": SubResource("Animation_4pgcy"),
@@ -201,11 +219,11 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pgcy"]
 size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
-myId = NodePath("MultiplayerSynchronizer")
-animPlayer = NodePath("AnimationPlayer")
-sprite = NodePath("Sprite2D")
+[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 hitbox = NodePath("DamageEmitter")
+maxHealth = 5
+currentHealth = 5
+damageMultiplier = 1
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
@@ -218,7 +236,11 @@ position = Vector2(0, 29)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_67b3l")
 
-[node name="CollisionShape2D" parent="DamageEmitter" parent_id_path=PackedInt32Array(1450132725) index="0" unique_id=1348990358]
+[node name="DamageEmitter" parent="." index="3" unique_id=1450132725]
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" parent="DamageEmitter" index="0" unique_id=1348990358]
 position = Vector2(20.5, 27.5)
 shape = SubResource("RectangleShape2D_2coch")
 
@@ -226,7 +248,10 @@ shape = SubResource("RectangleShape2D_2coch")
 libraries/ = SubResource("AnimationLibrary_sb8yw")
 autoplay = &"Idle"
 
-[node name="CollisionShape2D" parent="DamageReceiver" parent_id_path=PackedInt32Array(647142023) index="0" unique_id=369906974]
+[node name="DamageReceiver" parent="." index="5" unique_id=647142023]
+collision_layer = 16
+
+[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
 position = Vector2(0, 27.5)
 shape = SubResource("RectangleShape2D_4pgcy")
 

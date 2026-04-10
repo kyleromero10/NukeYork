@@ -14,6 +14,7 @@ public partial class PlayerCharacter : CharacterBody2D
     [Export] public int currentHealth;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 300;
+    [Export] public Camera2D myCamera;
     [Export] public Vector2 SyncedVelocity
 	{
 		get => Velocity;
@@ -50,6 +51,7 @@ public partial class PlayerCharacter : CharacterBody2D
         }
         if (GenericCore.Instance.IsServer)
         {
+            flipSprite();
             HandleMovement();
             MoveAndSlide();
         }
@@ -78,6 +80,22 @@ public partial class PlayerCharacter : CharacterBody2D
                 int attack = 2;
                 RpcId(1,"AttackRPC", attack);
             }
+
+            /*if (myCamera == null)
+            {
+                // Grab the existing camera from the scene
+                myCamera = GetViewport().GetCamera2D();
+                GD.Print("myCamera: " + myCamera);
+
+                if (myCamera != null)
+                {
+                    // Reparent the camera to this character so it follows automatically
+                    Node previousParent = myCamera.GetParent();
+                    previousParent?.RemoveChild(myCamera);
+                    AddChild(myCamera);
+                }
+            }*/
+
         }
         if(!GenericCore.Instance.IsServer)
         {
@@ -99,7 +117,14 @@ public partial class PlayerCharacter : CharacterBody2D
             {
                 animPlayer.Play("HeavyAttack");
             }
-            
+            else if(state == PlayerState.Hurt)
+            {
+                animPlayer.Play("Hurt");
+            }
+            else if(state == PlayerState.Dead)
+            {
+                animPlayer.Play("Death");
+            }
         }
     }
 
@@ -123,10 +148,12 @@ public partial class PlayerCharacter : CharacterBody2D
     {
         if(Velocity.X < 0)
         {
+            hitbox.Scale= new Vector2(-1,1);
             sprite.FlipH = true;
         }
         else if(Velocity.X > 0)
         {
+            hitbox.Scale= new Vector2(1,1);
             sprite.FlipH = false;
         }
     }
@@ -172,17 +199,25 @@ public partial class PlayerCharacter : CharacterBody2D
         RpcId(1,"ActionCompleteRPC");
     }
 
-    public void SetMonitor()
+    public void SetMonitorTrue()
     {
-        RpcId(1,"SetMonitorRPC");
+        RpcId(1,"SetMonitorRPC", 1);
+    }
+
+    public void SetMonitorFalse()
+    {
+        RpcId(1,"SetMonitorRPC", 2);
     }
 
     public void onHitboxEntered(DamageReceiver damageReceiver)
     {
         if(GenericCore.Instance.IsServer)
         {
-            damageReceiver.EmitSignal("OnHit", damageMultiplier);
-            GD.Print("Hitbox entered: " + damageReceiver.Name);
+            if(damageReceiver is DamageReceiver)
+            {
+                damageReceiver.EmitSignal("OnHit", damageMultiplier);
+                GD.Print("Hitbox entered: " + damageReceiver.Name);
+            }
         }
     }
 
@@ -190,24 +225,37 @@ public partial class PlayerCharacter : CharacterBody2D
     {
         if(GenericCore.Instance.IsServer)
         {
-            state = PlayerState.Hurt;
             currentHealth -= Damage;
-            GD.Print("Hurtbox entered: ");
+            if(currentHealth <= 0)
+            {
+                state = PlayerState.Dead;
+                currentHealth = 0;
+                GD.Print("Enemy died");
+            }
+            else
+            {
+                state = PlayerState.Hurt;
+                GD.Print("Enemy hurt");
+            }
         }
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
     TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void SetMonitorRPC()
+    public void SetMonitorRPC(int set)
     {
         if (GenericCore.Instance.IsServer)
         {         
-            if(hitbox.Monitoring == true)
+            if(set == 1)
+            {
+                hitbox.Monitoring = true;
+                hitbox.Monitorable = true;
+            }
+            else if(set == 2)
             {
                 hitbox.Monitoring = false;
+                hitbox.Monitorable = false;
             }
-            else 
-                hitbox.Monitoring = true;
         }
     }
     
