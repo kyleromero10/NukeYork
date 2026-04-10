@@ -13,6 +13,8 @@ public partial class Enemy : CharacterBody2D
     [Export] public int currentHealth;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 100;
+    [Export] public float  prepAttackTime = 2f;
+    public bool isPreppingAttack = false;
     [Export] public Vector2 SyncedVelocity
 	{
 		get => Velocity;
@@ -39,6 +41,7 @@ public partial class Enemy : CharacterBody2D
         }
         if (GenericCore.Instance.IsServer)
         {
+            flipSprite();
             HandleMovement();
             MoveAndSlide();
         }
@@ -56,6 +59,16 @@ public partial class Enemy : CharacterBody2D
                 }
             }*/
             GetClosestPlayer();
+            if(isPreppingAttack && CanAttack())
+            {
+                prepAttackTime -= (float)delta;
+                if(prepAttackTime <= 0)
+                {
+                    prepAttackTime = 2f;
+                    isPreppingAttack = false;
+                    RpcId(1,"AttackRPC", 1);
+                }
+            }
             if(CanMove())
             {
                 RpcId(1,"MoveMeRPC", directionToPlayer);
@@ -82,6 +95,10 @@ public partial class Enemy : CharacterBody2D
             {
                 animPlayer.Play("Hurt");
             }
+            else if(state == PlayerState.Dead)
+            {
+                animPlayer.Play("Death");
+            }
             
         }
     }
@@ -104,6 +121,15 @@ public partial class Enemy : CharacterBody2D
             }
         }
         directionToPlayer = closestPlayer.GlobalPosition - GlobalPosition;
+        if(closestDistance < 40)
+        {
+            directionToPlayer = Vector2.Zero;
+            isPreppingAttack = true;
+        }
+        else
+        {
+            isPreppingAttack = false;
+        }
     }
 
     public void HandleMovement()
@@ -125,10 +151,12 @@ public partial class Enemy : CharacterBody2D
     {
         if(Velocity.X < 0)
         {
+            hitbox.Scale= new Vector2(-1,1);
             sprite.FlipH = true;
         }
         else if(Velocity.X > 0)
         {
+            hitbox.Scale= new Vector2(1,1);
             sprite.FlipH = false;
         }
     }
@@ -171,9 +199,14 @@ public partial class Enemy : CharacterBody2D
         RpcId(1,"AttackCompleteRPC");
     }
 
-    public void SetMonitor()
+    public void SetMonitorTrue()
     {
-        RpcId(1,"SetMonitorRPC");
+        RpcId(1,"SetMonitorRPC", 1);
+    }
+
+    public void SetMonitorFalse()
+    {
+        RpcId(1,"SetMonitorRPC", 2);
     }
 
     public void onHitboxEntered(DamageReceiver damageReceiver)
@@ -189,24 +222,35 @@ public partial class Enemy : CharacterBody2D
     {
         if(GenericCore.Instance.IsServer)
         {
-            state = PlayerState.Hurt;
             currentHealth -= Damage;
-            GD.Print("Hurtbox entered: ");
+            if(currentHealth <= 0)
+            {
+                state = PlayerState.Dead;
+                currentHealth = 0;
+                GD.Print("Enemy died");
+            }
+            else
+            {
+                state = PlayerState.Hurt;
+                GD.Print("Enemy hurt");
+            }
         }
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
     TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void SetMonitorRPC()
+    public void SetMonitorRPC(int set)
     {
         if (GenericCore.Instance.IsServer)
         {         
-            if(hitbox.Monitoring == true)
+            if(set == 1)
+            {
+                hitbox.Monitoring = true;
+            }
+            else if(set == 2)
             {
                 hitbox.Monitoring = false;
             }
-            else 
-                hitbox.Monitoring = true;
         }
     }
     
