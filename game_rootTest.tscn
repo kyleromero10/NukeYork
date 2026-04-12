@@ -59,7 +59,7 @@ text = "Client"
 position = Vector2(-56, -124)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Level1" unique_id=1225884149]
-_spawnable_scenes = PackedStringArray("uid://dps0pbrk38pa")
+_spawnable_scenes = PackedStringArray("uid://dps0pbrk38pa", "uid://bfgcvu4ccm8sq")
 spawn_path = NodePath("..")
 script = ExtResource("2_mhga7")
 SpawnInexZeroOnConnect = true
