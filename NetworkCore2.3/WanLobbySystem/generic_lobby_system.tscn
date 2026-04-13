@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://buq7bi58l3fu1" path="res://NetworkCore2.3/WanLobbySystem/BetterLobby/LobbyStreamlined.cs" id="1_nacce"]
 [ext_resource type="Script" uid="uid://b2fb80xs807f4" path="res://NetworkCore2.3/NetworkCore.cs" id="2_nacce"]
-[ext_resource type="PackedScene" uid="uid://c8c6olsnh7ypq" path="res://game_root.tscn" id="3_3r1pa"]
+[ext_resource type="PackedScene" uid="uid://ck6c3ik5veypr" path="res://game_root.tscn" id="3_3r1pa"]
 
 [node name="AbsoluteRoot" type="Node" unique_id=13020439]
 
@@ -91,9 +91,8 @@ spawn_path = NodePath("..")
 script = ExtResource("2_nacce")
 SpawnInexZeroOnConnect = true
 
-[node name="GameRoot" parent="." unique_id=394154124 instance=ExtResource("3_3r1pa")]
+[node name="GameRoot" parent="." unique_id=2056142695 instance=ExtResource("3_3r1pa")]
 
 [connection signal="pressed" from="GenericLobbySystem/HBoxContainer/ColorRect/MarginContainer/LeftMenu/Button" to="GenericLobbySystem" method="CreatNewGameServer"]
 
 [editable path="GameRoot"]
-[editable path="GameRoot/Level"]

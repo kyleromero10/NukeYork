@@ -26,7 +26,6 @@ project/assembly_name="NetworkTemplate2"
 [global_group]
 
 Player=""
-NPM=""
 
 [input]
 

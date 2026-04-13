@@ -221,8 +221,8 @@ size = Vector2(20, 9)
 
 [node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 hitbox = NodePath("DamageEmitter")
-maxHealth = 3
-currentHealth = 3
+maxHealth = 5
+currentHealth = 5
 damageMultiplier = 1
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
@@ -238,6 +238,7 @@ shape = SubResource("CapsuleShape2D_67b3l")
 
 [node name="DamageEmitter" parent="." index="3" unique_id=1450132725]
 collision_layer = 2
+monitorable = false
 
 [node name="CollisionShape2D" parent="DamageEmitter" index="0" unique_id=1348990358]
 position = Vector2(20.5, 27.5)
