@@ -12,6 +12,7 @@ public partial class PlayerCharacter : CharacterBody2D
     [Export] public string playerName;
 	[Export] public int maxHealth;
     [Export] public int currentHealth;
+    [Export] public float deathTimer = 5;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 300;
     [Export] public Camera2D myCamera;
@@ -51,6 +52,19 @@ public partial class PlayerCharacter : CharacterBody2D
         }
         if (GenericCore.Instance.IsServer)
         {
+            if(state == PlayerState.Dead && deathTimer > 0)
+            {
+                deathTimer -= (float)delta;
+                GD.Print("Death timer: " + deathTimer);
+                if(deathTimer <= 0)
+                {
+
+                    deathTimer = 0;
+                    currentHealth = maxHealth;
+                    state = PlayerState.Idle;
+                    deathTimer = 3f;
+                }
+            }
             flipSprite();
             HandleMovement();
             MoveAndSlide();
@@ -81,11 +95,11 @@ public partial class PlayerCharacter : CharacterBody2D
                 RpcId(1,"AttackRPC", attack);
             }
 
-            /*if (myCamera == null)
+            if (myCamera == null)
             {
                 // Grab the existing camera from the scene
                 myCamera = GetViewport().GetCamera2D();
-                GD.Print("myCamera: " + myCamera);
+                //GD.Print("myCamera: " + myCamera);
 
                 if (myCamera != null)
                 {
@@ -94,7 +108,7 @@ public partial class PlayerCharacter : CharacterBody2D
                     previousParent?.RemoveChild(myCamera);
                     AddChild(myCamera);
                 }
-            }*/
+            }
 
         }
         if(!GenericCore.Instance.IsServer)
