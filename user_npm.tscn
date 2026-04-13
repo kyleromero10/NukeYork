@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://cagandx40m2jd"]
+
+[ext_resource type="Script" uid="uid://b61ttjmqmiipl" path="res://UserNpm.cs" id="1_1xpwo"]
+[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_pnxad"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dctxn"]
+properties/0/path = NodePath("MultiplayerSynchronizer:IsNetworkReady")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("MultiplayerSynchronizer:IsSynced")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("MultiplayerSynchronizer:OwnerId")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:PlayerName")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:Character")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:LevelChoice")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:IsReady")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+
+[node name="UserNPM" type="Control" unique_id=912081903 node_paths=PackedStringArray("MyName", "myID", "MyCharacter", "Level", "MyCheckBox") groups=["NPM"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1xpwo")
+MyName = NodePath("TextEdit")
+myID = NodePath("MultiplayerSynchronizer")
+MyCharacter = NodePath("CharacterSelect")
+Level = NodePath("LevelSelect")
+MyCheckBox = NodePath("CheckBox")
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=1032991322]
+layout_mode = 0
+anchor_left = 0.40364584
+anchor_top = 0.25617284
+anchor_right = 0.5815972
+anchor_bottom = 0.33179012
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=430490528]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.19793725, 0.19793725, 0.19793719, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CharacterSelect" type="ItemList" parent="." unique_id=1386840514]
+layout_mode = 0
+anchor_left = 0.3637153
+anchor_top = 0.36265433
+anchor_right = 0.6215278
+anchor_bottom = 0.42438272
+item_count = 1
+item_0/text = "Brawler"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelSelect" type="ItemList" parent="." unique_id=1317725897]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.42708334
+anchor_top = 0.492284
+anchor_right = 0.5434028
+anchor_bottom = 0.55401236
+offset_top = -3.0517578e-05
+item_count = 1
+item_0/text = "Level1"
+metadata/_edit_use_anchors_ = true
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=292983101]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.44618055
+anchor_top = 0.6867284
+anchor_right = 0.5121528
+anchor_bottom = 0.7345679
+text = "Ready"
+metadata/_edit_use_anchors_ = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=132415211]
+replication_config = SubResource("SceneReplicationConfig_dctxn")
+script = ExtResource("2_pnxad")
+
+[connection signal="item_selected" from="CharacterSelect" to="." method="OnCharacterChange"]
+[connection signal="item_selected" from="LevelSelect" to="." method="OnLevelChange"]
+[connection signal="toggled" from="CheckBox" to="." method="OnToggleChange"]

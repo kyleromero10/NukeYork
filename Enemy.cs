@@ -107,20 +107,23 @@ public partial class Enemy : CharacterBody2D
     public void GetClosestPlayer()
     {
         var players = GetTree().GetNodesInGroup("Player");
-        var closestPlayer = players[0] as PlayerCharacter;
-        var closestDistance = GlobalPosition.DistanceTo(closestPlayer.GlobalPosition);
+        var closestPlayer = null as PlayerCharacter;
+        var closestDistance = float.MaxValue;
         foreach(PlayerCharacter player in players)
         {
             var distance = GlobalPosition.DistanceTo(player.GlobalPosition);
             //Vector2 directionToPlayerCheck = player.GlobalPosition - GlobalPosition;
             //GD.Print("Direction to player: " + directionToPlayerCheck);
-            if(distance < closestDistance)
+            if(distance < closestDistance && player.state != PlayerCharacter.PlayerState.Dead)
             {
                 closestDistance = distance;
                 closestPlayer = player;
             }
         }
-        directionToPlayer = closestPlayer.GlobalPosition - GlobalPosition;
+        if(closestPlayer != null)
+        {
+            directionToPlayer = closestPlayer.GlobalPosition - GlobalPosition;
+        }
         if(closestDistance < 40)
         {
             directionToPlayer = Vector2.Zero;
