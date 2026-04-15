@@ -188,7 +188,7 @@ position = Vector2(2.75, 27.5)
 shape = SubResource("RectangleShape2D_5spd6")
 
 [connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
-[connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
+[connection signal="OnHitEnemy" from="DamageReceiver" to="." method="onHitEnemy"]
 
 [editable path="DamageEmitter"]
 [editable path="DamageReceiver"]

@@ -857,39 +857,39 @@ tile_set = SubResource("TileSet_m4ydb")
 
 [node name="EnemySpawns" type="Node2D" parent="AllSpawns" unique_id=703666325]
 
-[node name="Spawn1" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=608600959]
+[node name="Spawn1" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=608600959 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(22, 279)
 
-[node name="Spawn2" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1587418651]
+[node name="Spawn2" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1587418651 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(157, 361)
 
-[node name="Spawn3" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=166524426]
+[node name="Spawn3" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=166524426 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(925, 18)
 
-[node name="Spawn4" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1934460147]
+[node name="Spawn4" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1934460147 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(932, 382)
 
-[node name="Spawn5" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=608680061]
+[node name="Spawn5" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=608680061 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(1659, 380)
 
-[node name="Spawn6" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1127253459]
+[node name="Spawn6" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1127253459 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(2354, 382)
 
-[node name="Spawn7" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1365438027]
+[node name="Spawn7" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1365438027 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(2425, 268)
 
 [node name="PlayerSpawns" type="Node2D" parent="AllSpawns" unique_id=1796182922]
 
-[node name="Spawn1" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=958737851]
+[node name="Spawn1" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=958737851 groups=["PlayerSpawns"]]
 position = Vector2(807, 263)
 
-[node name="Spawn2" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=396653025]
+[node name="Spawn2" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=396653025 groups=["PlayerSpawns"]]
 position = Vector2(852, 263)
 
-[node name="Spawn3" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=252474417]
+[node name="Spawn3" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=252474417 groups=["PlayerSpawns"]]
 position = Vector2(896, 262)
 
-[node name="Spawn4" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=784411282]
+[node name="Spawn4" type="Marker2D" parent="AllSpawns/PlayerSpawns" unique_id=784411282 groups=["PlayerSpawns"]]
 position = Vector2(939, 262)
 
 [node name="Bounds" type="Node2D" parent="." unique_id=1146750118]

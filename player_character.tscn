@@ -57,6 +57,8 @@ script = ExtResource("2_5up26")
 [node name="DamageEmitter" parent="." unique_id=1450132725 instance=ExtResource("3_0hvvw")]
 collision_mask = 96
 
+[node name="DamageEmitterHeavy" type="Area2D" parent="." unique_id=1562066232]
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=498136880]
 
 [node name="DamageReceiver" parent="." unique_id=647142023 instance=ExtResource("4_6qc1w")]

@@ -13,7 +13,7 @@ public partial class Enemy : CharacterBody2D
     [Export] public int currentHealth;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 100;
-    [Export] public float  prepAttackTime = 2f;
+    [Export] public float  prepAttackTime = 1f;
     public bool isPreppingAttack = false;
     [Export] public Vector2 SyncedVelocity
 	{
@@ -41,6 +41,10 @@ public partial class Enemy : CharacterBody2D
         }
         if (GenericCore.Instance.IsServer)
         {
+            /*if(state == PlayerState.Dead)
+            {
+                GenericCore.Instance.MainNetworkCore.NetDestroyObject(myId);
+            }*/
             flipSprite();
             HandleMovement();
             MoveAndSlide();
@@ -64,7 +68,7 @@ public partial class Enemy : CharacterBody2D
                 prepAttackTime -= (float)delta;
                 if(prepAttackTime <= 0)
                 {
-                    prepAttackTime = 2f;
+                    prepAttackTime = 1f;
                     isPreppingAttack = false;
                     RpcId(1,"AttackRPC", 1);
                 }
@@ -221,7 +225,7 @@ public partial class Enemy : CharacterBody2D
         }
     }
 
-    public void onHit(int Damage)
+    public void onHitEnemy(int Damage, PlayerCharacter player)
     {
         if(GenericCore.Instance.IsServer)
         {
@@ -229,6 +233,7 @@ public partial class Enemy : CharacterBody2D
             if(currentHealth <= 0)
             {
                 state = PlayerState.Dead;
+                player.totalKills += 1;
                 currentHealth = 0;
                 GD.Print("Enemy died");
             }

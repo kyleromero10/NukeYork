@@ -27,6 +27,8 @@ project/assembly_name="NetworkTemplate2"
 
 Player=""
 NPM=""
+PlayerSpawns=""
+EnemySpawns=""
 
 [input]
 

@@ -12,9 +12,13 @@ public partial class PlayerCharacter : CharacterBody2D
     [Export] public string playerName;
 	[Export] public int maxHealth;
     [Export] public int currentHealth;
+    [Export] public int radiation;
+    [Export] public bool isInRadiation;
     [Export] public float deathTimer = 5;
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 300;
+    [Export] public int totalKills;
+
     [Export] public Camera2D myCamera;
     [Export] public Vector2 SyncedVelocity
 	{
@@ -65,6 +69,16 @@ public partial class PlayerCharacter : CharacterBody2D
                     deathTimer = 3f;
                 }
             }
+            if(radiation >= 100)
+            {
+                isInRadiation = true;
+            }
+            else if(radiation <= 0)
+            {
+                isInRadiation = false;
+                radiation = 0;
+            }
+
             flipSprite();
             HandleMovement();
             MoveAndSlide();
@@ -172,6 +186,11 @@ public partial class PlayerCharacter : CharacterBody2D
         }
     }
 
+    public void activateRadiation()
+    {
+        isInRadiation = true;
+    }
+
     public bool CanMove()
     {
         return state == PlayerState.Idle || state == PlayerState.Moving;
@@ -229,7 +248,8 @@ public partial class PlayerCharacter : CharacterBody2D
         {
             if(damageReceiver is DamageReceiver)
             {
-                damageReceiver.EmitSignal("OnHit", damageMultiplier);
+                damageReceiver.EmitSignal("OnHitEnemy", damageMultiplier, this);
+                radiation += 5;
                 GD.Print("Hitbox entered: " + damageReceiver.Name);
             }
         }
@@ -249,6 +269,7 @@ public partial class PlayerCharacter : CharacterBody2D
             else
             {
                 state = PlayerState.Hurt;
+                radiation += 2;
                 GD.Print("Enemy hurt");
             }
         }
