@@ -1,0 +1,186 @@
+[gd_scene format=3 uid="uid://pkpd3g0mxbdq"]
+
+[ext_resource type="PackedScene" uid="uid://dnbsg2lsr4ix4" path="res://enemy.tscn" id="1_f5y7r"]
+[ext_resource type="Texture2D" uid="uid://ubmftwimi5ll" path="res://Enemies/HeavyEnemy/Sprite/HeavyEnemySheet.png" id="2_w6lc8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3d3qm"]
+radius = 7.0
+height = 66.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2lkd7"]
+size = Vector2(38, 17)
+
+[sub_resource type="Animation" id="Animation_bp1ie"]
+resource_name = "Attack"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 13]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AttackComplete"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"SetMonitorTrue"
+}, {
+"args": [],
+"method": &"SetMonitorFalse"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ne1yc"]
+resource_name = "Death"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [24]
+}
+
+[sub_resource type="Animation" id="Animation_b8dtg"]
+resource_name = "Hurt"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"AttackComplete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_0udcq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0huip"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nl7sv"]
+_data = {
+&"Attack": SubResource("Animation_bp1ie"),
+&"Death": SubResource("Animation_ne1yc"),
+&"Hurt": SubResource("Animation_b8dtg"),
+&"RESET": SubResource("Animation_0udcq"),
+&"Walk": SubResource("Animation_0huip")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4krr"]
+size = Vector2(62, 17)
+
+[node name="HeavyEnemy" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") groups=["Enemy"] instance=ExtResource("1_f5y7r")]
+myId = NodePath("MultiplayerSynchronizer")
+animPlayer = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
+hitbox = NodePath("DamageEmitter")
+
+[node name="Sprite2D" parent="." index="0" unique_id=1509948933]
+texture_filter = 1
+texture = ExtResource("2_w6lc8")
+hframes = 8
+vframes = 4
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=2122338441]
+position = Vector2(-1, 25)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_3d3qm")
+
+[node name="CollisionShape2D" parent="DamageEmitter" parent_id_path=PackedInt32Array(1450132725) index="0" unique_id=1348990358]
+position = Vector2(42, 23.5)
+shape = SubResource("RectangleShape2D_2lkd7")
+
+[node name="AnimationPlayer" parent="." index="4" unique_id=498136880]
+libraries/ = SubResource("AnimationLibrary_nl7sv")
+autoplay = &"Walk"
+
+[node name="CollisionShape2D" parent="DamageReceiver" parent_id_path=PackedInt32Array(647142023) index="0" unique_id=369906974]
+position = Vector2(-3, 23.5)
+shape = SubResource("RectangleShape2D_m4krr")
+
+[connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
+[connection signal="OnHitEnemy" from="DamageReceiver" to="." method="onHitEnemy"]
+
+[editable path="DamageEmitter"]
+[editable path="DamageReceiver"]

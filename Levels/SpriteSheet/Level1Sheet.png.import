@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxf826ukrqvp7"
-path="res://.godot/imported/BrawlerSheet.png-4dcf77f5d45bb48502499326d747ed5d.ctex"
+uid="uid://ca1x5g82m0a0x"
+path="res://.godot/imported/Level1Sheet.png-99a4b712049f91c4c5e14e6a46b14ff6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Players/Brawler/BrawlerSheet.png"
-dest_files=["res://.godot/imported/BrawlerSheet.png-4dcf77f5d45bb48502499326d747ed5d.ctex"]
+source_file="res://Levels/SpriteSheet/Level1Sheet.png"
+dest_files=["res://.godot/imported/Level1Sheet.png-99a4b712049f91c4c5e14e6a46b14ff6.ctex"]
 
 [params]
 

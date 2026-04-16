@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://bjrkulxv2fc6s"]
-
-[ext_resource type="PackedScene" uid="uid://dnbsg2lsr4ix4" path="res://enemy.tscn" id="1_35gl2"]
-
-[node name="SmallEnemy" unique_id=1368834784 instance=ExtResource("1_35gl2")]
-
-[editable path="DamageEmitter"]
-[editable path="DamageReceiver"]

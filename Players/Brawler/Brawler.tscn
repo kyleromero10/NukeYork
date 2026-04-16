@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bfgcvu4ccm8sq"]
 
 [ext_resource type="PackedScene" uid="uid://ihy20q4diyvv" path="res://player_character.tscn" id="1_qtwdr"]
-[ext_resource type="Texture2D" uid="uid://cxf826ukrqvp7" path="res://Players/Brawler/BrawlerSheet.png" id="2_4pgcy"]
+[ext_resource type="Texture2D" uid="uid://cxf826ukrqvp7" path="res://Players/Brawler/SpriteSheet/BrawlerSheet.png" id="2_4pgcy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67b3l"]
 radius = 3.0
@@ -253,8 +253,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pgcy"]
 size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
+[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 hitbox = NodePath("DamageEmitter")
+heavyHitbox = NodePath("HeavyDamageEmitter")
 maxHealth = 6
 currentHealth = 6
 damageMultiplier = 2

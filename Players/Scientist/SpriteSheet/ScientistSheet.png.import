@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfnfmhend4xcf"
-path="res://.godot/imported/OperativeSheet.png-848a90f92f110a76b396e43c115f8f16.ctex"
+uid="uid://vfx7gbybevqu"
+path="res://.godot/imported/ScientistSheet.png-4e54ec918ac090e4668c81d24d4f03db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Players/Operative/OperativeSheet.png"
-dest_files=["res://.godot/imported/OperativeSheet.png-848a90f92f110a76b396e43c115f8f16.ctex"]
+source_file="res://Players/Scientist/SpriteSheet/ScientistSheet.png"
+dest_files=["res://.godot/imported/ScientistSheet.png-4e54ec918ac090e4668c81d24d4f03db.ctex"]
 
 [params]
 

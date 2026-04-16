@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bagjih2nddblx"]
 
-[ext_resource type="Texture2D" uid="uid://ca1x5g82m0a0x" path="res://Levels/Level1/SpriteSheet/Level1Sheet.png" id="1_vuj2u"]
+[ext_resource type="Texture2D" uid="uid://ca1x5g82m0a0x" path="res://Levels/SpriteSheet/Level1Sheet.png" id="1_vuj2u"]
 
 [sub_resource type="Gradient" id="Gradient_egdgr"]
 
@@ -821,6 +821,8 @@ size = Vector2(2411, 224)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h21si"]
 size = Vector2(2792, 425)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vuj2u"]
+
 [node name="Level2" type="Node2D" unique_id=33969784]
 z_index = -1
 
@@ -914,3 +916,6 @@ shape = SubResource("RectangleShape2D_5kkkh")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds/Topwall" unique_id=1121581316]
 position = Vector2(407, -373.5)
 shape = SubResource("RectangleShape2D_h21si")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1995037513]
+replication_config = SubResource("SceneReplicationConfig_vuj2u")

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://n2f1v57n83dj"]
+
+[ext_resource type="Texture2D" uid="uid://bbendwp0jb3nb" path="res://Consumables/Pickups.png" id="1_gmya1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xnhu7"]
+
+[node name="RadiationPickup" type="StaticBody2D" unique_id=968605422]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=286458679]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1030242685]
+shape = SubResource("CircleShape2D_xnhu7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1324490886]
+texture_filter = 1
+texture = ExtResource("1_gmya1")
+hframes = 2
+frame = 1

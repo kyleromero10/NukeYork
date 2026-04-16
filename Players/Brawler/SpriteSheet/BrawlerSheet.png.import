@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vfx7gbybevqu"
-path="res://.godot/imported/ScientistSheet.png-40a2845eaf8bb9e0eb5b706fd2f3d1bd.ctex"
+uid="uid://cxf826ukrqvp7"
+path="res://.godot/imported/BrawlerSheet.png-00d3103fd4c646eced5236347ec85087.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Players/Scientist/ScientistSheet.png"
-dest_files=["res://.godot/imported/ScientistSheet.png-40a2845eaf8bb9e0eb5b706fd2f3d1bd.ctex"]
+source_file="res://Players/Brawler/SpriteSheet/BrawlerSheet.png"
+dest_files=["res://.godot/imported/BrawlerSheet.png-00d3103fd4c646eced5236347ec85087.ctex"]
 
 [params]
 

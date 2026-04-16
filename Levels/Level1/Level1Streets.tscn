@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dv7bo843ct0pb"]
 
-[ext_resource type="Texture2D" uid="uid://ca1x5g82m0a0x" path="res://Levels/Level1/SpriteSheet/Level1Sheet.png" id="1_4v71h"]
+[ext_resource type="Texture2D" uid="uid://ca1x5g82m0a0x" path="res://Levels/SpriteSheet/Level1Sheet.png" id="1_4v71h"]
 
 [sub_resource type="Gradient" id="Gradient_6svmv"]
 
@@ -827,6 +827,8 @@ size = Vector2(440, 746)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ul5p"]
 size = Vector2(335, 388)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4v71h"]
+
 [node name="Level1" type="Node2D" unique_id=33927704]
 z_index = -1
 
@@ -922,3 +924,6 @@ position = Vector2(885.5, -69)
 shape = SubResource("RectangleShape2D_8ul5p")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1242608028]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1977085333]
+replication_config = SubResource("SceneReplicationConfig_4v71h")

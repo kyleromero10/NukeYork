@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6ls3jkinchbh"]
 
-[ext_resource type="PackedScene" uid="uid://ihy20q4diyvv" path="res://player_character.tscn" id="1_gkm7e"]
-[ext_resource type="Texture2D" uid="uid://vfx7gbybevqu" path="res://Players/Scientist/ScientistSheet.png" id="2_0kjq1"]
+[ext_resource type="PackedScene" uid="uid://ihy20q4diyvv" path="res://player_character.tscn" id="1_wcq0t"]
+[ext_resource type="Texture2D" uid="uid://vfx7gbybevqu" path="res://Players/Scientist/SpriteSheet/ScientistSheet.png" id="2_sgpry"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x8al2"]
 radius = 3.0
@@ -11,7 +11,7 @@ height = 20.0
 size = Vector2(27, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4xxa7"]
-size = Vector2(27, 9)
+size = Vector2(27, 26)
 
 [sub_resource type="Animation" id="Animation_rxprv"]
 resource_name = "Death"
@@ -246,11 +246,13 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnxvl"]
 size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 groups=["Player"] instance=ExtResource("1_gkm7e")]
+[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_wcq0t")]
+hitbox = NodePath("DamageEmitter")
+heavyHitbox = NodePath("HeavyDamageEmitter")
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
-texture = ExtResource("2_0kjq1")
+texture = ExtResource("2_sgpry")
 hframes = 8
 vframes = 7
 
@@ -264,7 +266,7 @@ position = Vector2(20.5, 27.5)
 shape = SubResource("RectangleShape2D_7arai")
 
 [node name="CollisionShape2D" parent="HeavyDamageEmitter" parent_id_path=PackedInt32Array(822472442) index="0" unique_id=1348990358]
-position = Vector2(20.5, 27.5)
+position = Vector2(20.5, 28)
 shape = SubResource("RectangleShape2D_4xxa7")
 
 [node name="AnimationPlayer" parent="." index="5" unique_id=498136880]

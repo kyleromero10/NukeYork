@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca1x5g82m0a0x"
-path="res://.godot/imported/Level1Sheet.png-207de0e6d4eba6d215bd514b44dbaab2.ctex"
+uid="uid://bbendwp0jb3nb"
+path="res://.godot/imported/Pickups.png-716ee6fedba011271eba77a5cffc4822.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Levels/Level1/SpriteSheet/Level1Sheet.png"
-dest_files=["res://.godot/imported/Level1Sheet.png-207de0e6d4eba6d215bd514b44dbaab2.ctex"]
+source_file="res://Consumables/Pickups.png"
+dest_files=["res://.godot/imported/Pickups.png-716ee6fedba011271eba77a5cffc4822.ctex"]
 
 [params]
 
