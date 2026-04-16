@@ -151,7 +151,15 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwqar"]
 size = Vector2(35, 10)
 
-[node name="SmallEnemy" unique_id=1368834784 groups=["Enemy"] instance=ExtResource("1_33ipd")]
+[node name="SmallEnemy" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") groups=["Enemy"] instance=ExtResource("1_33ipd")]
+myId = NodePath("MultiplayerSynchronizer")
+animPlayer = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
+hitbox = NodePath("DamageEmitter")
+maxHealth = 3
+currentHealth = 3
+damageMultiplier = 1
+speed = 150.0
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
