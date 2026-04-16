@@ -263,6 +263,36 @@ public partial class GenericCore : Node
 
     }
 
+    public async void DisconnectServer()
+    {
+        if (IsServer)
+        {
+            Rpc("commandDisc");
+            await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+            GD.Print("Disconnecting the Server!");
+            DisconnectFromGame(); //Shutdown Server
+            try
+            {
+                if(LobbyStreamlined.Instance != null)
+                {
+                    LobbyStreamlined.Instance.DisconnectFromLobbySystem();
+                }
+            }
+            catch
+            {
+                GD.PrintErr("Lobby system already disconnected!");
+            }
+            GD.Print("Game server is ending");
+            GetTree().Quit();
+        }
+    }
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    public void commandDisc()
+    {
+        GD.Print("Disconnecting client at server requests");
+        this.DisconnectFromGame();
+    }
+
     private Error CreateLocalGame()
     {
         GD.Print($"Attempting to create game server at {_localPort}");

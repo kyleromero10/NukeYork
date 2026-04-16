@@ -29,6 +29,7 @@ Player=""
 NPM=""
 PlayerSpawns=""
 EnemySpawns=""
+Enemy=""
 
 [input]
 

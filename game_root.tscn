@@ -2,13 +2,12 @@
 
 [ext_resource type="Script" uid="uid://n2h3r5cr70se" path="res://NetworkCore2.3/GenericCore.cs" id="1_pjpa4"]
 [ext_resource type="Script" uid="uid://b2fb80xs807f4" path="res://NetworkCore2.3/NetworkCore.cs" id="2_bxsma"]
-[ext_resource type="PackedScene" uid="uid://dv7bo843ct0pb" path="res://Levels/Level1Streets.tscn" id="3_lkrbl"]
 [ext_resource type="PackedScene" uid="uid://crrkm3byx2bkw" path="res://player_ui.tscn" id="3_wd1uf"]
 [ext_resource type="PackedScene" uid="uid://csq6mowkq1xl1" path="res://game_master.tscn" id="5_wd1uf"]
 
 [node name="GameRoot" type="Node" unique_id=394154124 node_paths=PackedStringArray("MainNetworkCore")]
 script = ExtResource("1_pjpa4")
-MainNetworkCore = NodePath("Level1/MultiplayerSpawner")
+MainNetworkCore = NodePath("MultiplayerSpawner")
 _portMaximum = 7010
 _portMinimum = 7000
 _localPort = 7000
@@ -62,17 +61,18 @@ text = "Client"
 
 [node name="PlayerUI" parent="CanvasLayer" unique_id=632623158 node_paths=PackedStringArray("gameMaster") instance=ExtResource("3_wd1uf")]
 mouse_filter = 2
-gameMaster = NodePath("../../Level1/GameMaster")
+gameMaster = NodePath("../../GameMaster")
 
-[node name="Level1" parent="." unique_id=33927704 instance=ExtResource("3_lkrbl")]
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Level1" unique_id=1225884149]
-_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://je2axwdtnbxs", "uid://dps0pbrk38pa")
-spawn_path = NodePath("..")
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1225884149]
+_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://bjrkulxv2fc6s", "uid://dps0pbrk38pa", "uid://dame1d1gkpner", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
+spawn_path = NodePath("../Spawnables")
 script = ExtResource("2_bxsma")
 
-[node name="GameMaster" parent="Level1" unique_id=1639468073 node_paths=PackedStringArray("UI") instance=ExtResource("5_wd1uf")]
-UI = NodePath("../../CanvasLayer/Control")
+[node name="Spawnables" type="Node2D" parent="." unique_id=813685156]
+y_sort_enabled = true
+
+[node name="GameMaster" parent="." unique_id=1639468073 node_paths=PackedStringArray("UI") instance=ExtResource("5_wd1uf")]
+UI = NodePath("../CanvasLayer/Control")
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="CreateLocalGame"]
 [connection signal="pressed" from="CanvasLayer/Button2" to="." method="JoinGame"]

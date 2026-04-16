@@ -152,14 +152,14 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5spd6"]
 size = Vector2(24.5, 9)
 
-[node name="LightEnemy" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") instance=ExtResource("1_5ofjv")]
+[node name="LightEnemy" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite", "hitbox") groups=["Enemy"] instance=ExtResource("1_5ofjv")]
 myId = NodePath("MultiplayerSynchronizer")
 animPlayer = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 hitbox = NodePath("DamageEmitter")
 maxHealth = 5
 currentHealth = 5
-damageMultiplier = 1
+damageMultiplier = 2
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1

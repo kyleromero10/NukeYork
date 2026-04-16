@@ -8,6 +8,7 @@ public partial class PlayerCharacter : CharacterBody2D
     [Export] public AnimationPlayer animPlayer;
     [Export] public Sprite2D sprite;
     [Export] public Area2D hitbox;
+    [Export] public Area2D heavyHitbox;
 
     [Export] public string playerName;
 	[Export] public int maxHealth;
@@ -35,7 +36,9 @@ public partial class PlayerCharacter : CharacterBody2D
         LightAttack,
         HeavyAttack,
         Hurt,
-        Dead
+        Dead,
+        Win,
+        Finish
     }
 
     public void Synchronized()
@@ -50,7 +53,7 @@ public partial class PlayerCharacter : CharacterBody2D
     //Also need to setup synchronize Signal on all characters.
     public override void _Process(double delta)
     {
-        if(!myId.IsSynced)
+        if(!myId.IsNetworkReady || !GenericCore.Instance.IsGenericCoreConnected)
         {
             return;
         }
@@ -153,6 +156,10 @@ public partial class PlayerCharacter : CharacterBody2D
             {
                 animPlayer.Play("Death");
             }
+            else if(state == PlayerState.Win)
+            {
+                animPlayer.Play("Win");
+            }
         }
     }
 
@@ -177,11 +184,13 @@ public partial class PlayerCharacter : CharacterBody2D
         if(Velocity.X < 0)
         {
             hitbox.Scale= new Vector2(-1,1);
+            heavyHitbox.Scale= new Vector2(-1,1);
             sprite.FlipH = true;
         }
         else if(Velocity.X > 0)
         {
             hitbox.Scale= new Vector2(1,1);
+            heavyHitbox.Scale= new Vector2(1,1);
             sprite.FlipH = false;
         }
     }
@@ -227,6 +236,10 @@ public partial class PlayerCharacter : CharacterBody2D
         }
     }
 
+    public void VictoryComplete()
+    {
+        RpcId(1,"VictoryCompleteRPC");
+    }
     public void ActionComplete()
     {
         RpcId(1,"ActionCompleteRPC");
@@ -242,6 +255,16 @@ public partial class PlayerCharacter : CharacterBody2D
         RpcId(1,"SetMonitorRPC", 2);
     }
 
+    public void SetHeavyMonitorTrue()
+    {
+        RpcId(1,"SetHeavyMonitorRPC", 1);
+    }
+
+    public void SetHeavyMonitorFalse()
+    {
+        RpcId(1,"SetHeavyMonitorRPC", 2);
+    }
+
     public void onHitboxEntered(DamageReceiver damageReceiver)
     {
         if(GenericCore.Instance.IsServer)
@@ -249,6 +272,19 @@ public partial class PlayerCharacter : CharacterBody2D
             if(damageReceiver is DamageReceiver)
             {
                 damageReceiver.EmitSignal("OnHitEnemy", damageMultiplier, this);
+                radiation += 5;
+                GD.Print("Hitbox entered: " + damageReceiver.Name);
+            }
+        }
+    }
+
+    public void onHeavyHitboxEntered(DamageReceiver damageReceiver)
+    {
+        if(GenericCore.Instance.IsServer)
+        {
+            if(damageReceiver is DamageReceiver)
+            {
+                damageReceiver.EmitSignal("OnHitEnemy", damageMultiplier*2, this);
                 radiation += 5;
                 GD.Print("Hitbox entered: " + damageReceiver.Name);
             }
@@ -293,6 +329,25 @@ public partial class PlayerCharacter : CharacterBody2D
             }
         }
     }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
+    TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    public void SetHeavyMonitorRPC(int set)
+    {
+        if (GenericCore.Instance.IsServer)
+        {         
+            if(set == 1)
+            {
+                heavyHitbox.Monitoring = true;
+                heavyHitbox.Monitorable = true;
+            }
+            else if(set == 2)
+            {
+                heavyHitbox.Monitoring = false;
+                heavyHitbox.Monitorable = false;
+            }
+        }
+    }
     
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
     TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -301,6 +356,15 @@ public partial class PlayerCharacter : CharacterBody2D
         if (GenericCore.Instance.IsServer)
         {          
             state = PlayerState.Idle;
+        }
+    }
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
+    TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    public void VictoryCompleteRPC()
+    {
+        if (GenericCore.Instance.IsServer)
+        {          
+            state = PlayerState.Finish;
         }
     }
 }

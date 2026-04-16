@@ -11,7 +11,12 @@ public partial class GameMaster : Node
     [Export]
     public bool GameStarted;
 
-    [Export] public float GameTimer = 360;
+    [Export] public float GameTimer = 15;
+    [Export] public float EnemyWaveTimer = 15;
+    public Random rand = new Random();
+    [Export] public Vector2 winnerPos = Vector2.Zero;
+    [Export] public int randLevel;
+    private int levelChoice;
 
     [Export]
     public bool GameFinished = false;
@@ -30,7 +35,7 @@ public partial class GameMaster : Node
         {
             return;
         }*/
-        if(!myId.IsNetworkReady)
+        if(!myId.IsNetworkReady || !GenericCore.Instance.IsGenericCoreConnected)
         {
             return;
         }
@@ -40,8 +45,23 @@ public partial class GameMaster : Node
             if(GenericCore.Instance.IsServer)
             {
                 GameTimer -= (float)delta;
-                //GD.Print("Game Timer: " + GameTimer);
+                EnemyWaveTimer -= (float)delta;
+                
+                if(EnemyWaveTimer <= 0)
+                {
+                    EnemyWaveTimer = 10;
+                    var spawns = GetTree().GetNodesInGroup("ESpawns");
+                    foreach(Marker2D spawn in spawns)
+                    {
+                        GD.Print("Spawning enemy at: " + spawn.GlobalPosition);
+                        int enemyType = rand.Next(1, 3);
+                        GenericCore.Instance.MainNetworkCore.NetCreateObject(2, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
+                            Quaternion.Identity, localID.OwnerId); //Spawn an enemy.
+                    }
+                    //Spawn an enemy.
+                }
 
+                //GD.Print("Game Timer: " + GameTimer);
                 if(GameTimer <= 0)
                 {
                     GameFinished = true;
@@ -55,16 +75,33 @@ public partial class GameMaster : Node
         {
             if(GenericCore.Instance.IsServer)
             {
+                var e = GetTree().GetNodesInGroup("Enemy");
+                foreach(Enemy enemy in e)
+                {
+                    GD.Print("Destroying enemy: ");
+                    GenericCore.Instance.MainNetworkCore.NetDestroyObject(enemy.myId);
+                }
                 var t = GetTree().GetNodesInGroup("Player");
-                PlayerCharacter winner = null;
+                PlayerCharacter winner = (PlayerCharacter)t[0];
                 foreach(PlayerCharacter player in t)
                 {
-                    if(winner == null || player.totalKills > winner.totalKills)
+                    player.state = PlayerCharacter.PlayerState.Finish;
+                    if(player.totalKills > winner.totalKills)
                     {
                         winner = player;
+                        winnerPos = player.GlobalPosition;
                     }
                 }
                 GD.Print("Winner: " + winner.playerName);
+                winner.state = PlayerCharacter.PlayerState.Win;
+                foreach(PlayerCharacter player in t)
+                {
+                    if(player.myId.IsLocal)
+                    {
+                        player.myCamera.Position = winnerPos;
+                    }
+                }
+
             }
             //Show end game screen.
         }
@@ -112,6 +149,23 @@ public partial class GameMaster : Node
         var myNPMs = GetTree().GetNodesInGroup("NPM");
         var spawns = GetTree().GetNodesInGroup("PlayerSpawns");
         int count = 0;
+        int count2 = 0;
+
+        randLevel = rand.Next(0, myNPMs.Count);  
+
+        foreach(UserNpm node in myNPMs)
+        {
+            if(count2 == randLevel)
+            {
+                randLevel = node.LevelChoice;
+            }
+            count2++;
+        }
+
+        //AddChild("Level" + randLevel, GD.Load<PackedScene>("res://Scenes/Level" + randLevel + ".tscn").Instantiate());
+        GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 4, Vector3.Zero,
+                Quaternion.Identity, localID.OwnerId);   
+
         //Create the characters
         foreach(UserNpm node in myNPMs)
         {
@@ -122,6 +176,9 @@ public partial class GameMaster : Node
             count++;
             localID = temp.myId;
         }
+
+        GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 4, Vector3.Zero,
+                Quaternion.Identity, localID.OwnerId);
 
         GenericCore.Instance.MainNetworkCore.NetCreateObject(2, new Vector3(300, 200, 0),
                 Quaternion.Identity, localID.OwnerId); //Spawn an enemy for testing.

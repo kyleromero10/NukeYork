@@ -17,7 +17,7 @@ public partial class PlayerUi : Control
         {
             if(gameMaster.GameStarted && !gameMaster.GameFinished)
             {
-                timerLabel.Text = "Time Remaining: " + (int)gameMaster.GameTimer/60 + ":" + (int)gameMaster.GameTimer%60;
+                timerLabel.Text = "Time Remaining: " + (int)gameMaster.GameTimer/60 + ":" + (int)gameMaster.GameTimer/10 + (int)gameMaster.GameTimer%10;
             }
             
         }

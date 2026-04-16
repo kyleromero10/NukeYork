@@ -7,6 +7,7 @@
 [node name="AbsoluteRoot" type="Node" unique_id=13020439]
 
 [node name="GenericLobbySystem" type="CanvasLayer" parent="." unique_id=715688556 node_paths=PackedStringArray("AgentSpawner", "GameNameBox")]
+layer = 2
 script = ExtResource("1_nacce")
 PublicIP = "68.155.153.211"
 PrivateIP = "10.1.1.4"
@@ -92,8 +93,12 @@ script = ExtResource("2_nacce")
 SpawnInexZeroOnConnect = true
 
 [node name="GameRoot" parent="." unique_id=394154124 instance=ExtResource("3_3r1pa")]
+_portMaximum = 7010
+_portMinimum = 7000
+
+[node name="MultiplayerSpawner" parent="GameRoot" index="2" unique_id=1225884149]
+_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://bjrkulxv2fc6s", "uid://dps0pbrk38pa", "uid://dame1d1gkpner", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
 
 [connection signal="pressed" from="GenericLobbySystem/HBoxContainer/ColorRect/MarginContainer/LeftMenu/Button" to="GenericLobbySystem" method="CreatNewGameServer"]
 
 [editable path="GameRoot"]
-[editable path="GameRoot/Level"]

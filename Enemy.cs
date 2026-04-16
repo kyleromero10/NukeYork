@@ -14,6 +14,7 @@ public partial class Enemy : CharacterBody2D
 	[Export] public int damageMultiplier;
 	[Export] public float speed = 100;
     [Export] public float  prepAttackTime = 1f;
+    [Export] public float despawnTimer = 5;
     public bool isPreppingAttack = false;
     [Export] public Vector2 SyncedVelocity
 	{
@@ -34,13 +35,22 @@ public partial class Enemy : CharacterBody2D
 
     public override void _Process(double delta)
     {
-        if(!myId.IsSynced)
+        if(!myId.IsNetworkReady || !GenericCore.Instance.IsGenericCoreConnected)
         {
-            GD.Print("Not synced yet");
             return;
         }
         if (GenericCore.Instance.IsServer)
         {
+
+            if(state == PlayerState.Dead && despawnTimer > 0)
+            {
+               despawnTimer -= (float)delta;
+               if(despawnTimer <= 0)
+                {
+                    GenericCore.Instance.MainNetworkCore.NetDestroyObject(myId);
+                } 
+            }
+
             /*if(state == PlayerState.Dead)
             {
                 GenericCore.Instance.MainNetworkCore.NetDestroyObject(myId);
@@ -230,7 +240,7 @@ public partial class Enemy : CharacterBody2D
         if(GenericCore.Instance.IsServer)
         {
             currentHealth -= Damage;
-            if(currentHealth <= 0)
+            if(currentHealth <= 0 && state != PlayerState.Dead)
             {
                 state = PlayerState.Dead;
                 player.totalKills += 1;

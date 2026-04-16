@@ -10,6 +10,9 @@ height = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2coch"]
 size = Vector2(27, 9)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11kcc"]
+size = Vector2(27, 9)
+
 [sub_resource type="Animation" id="Animation_l1uaq"]
 resource_name = "Death"
 length = 0.3
@@ -29,7 +32,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_sb8yw"]
 resource_name = "HeavyAttack"
-length = 0.6
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -38,7 +40,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-5.9604645e-08, 0.099999964, 0.19999999, 0.29999995, 0.39999998, 0.5, 0.6),
+"times": PackedFloat32Array(-5.9604645e-08, 0.099999964, 0.19999999, 0.5, 0.6, 0.9, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [63, 64, 65, 66, 67, 68, 69]
@@ -50,7 +52,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.6),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -64,14 +66,14 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.20000005, 0.6),
+"times": PackedFloat32Array(0.5, 1),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"SetMonitorTrue"
+"method": &"SetHeavyMonitorTrue"
 }, {
 "args": [],
-"method": &"SetMonitorFalse"
+"method": &"SetHeavyMonitorFalse"
 }]
 }
 
@@ -205,6 +207,37 @@ tracks/0/keys = {
 "values": [14, 15, 16, 17, 18, 19, 20, 21]
 }
 
+[sub_resource type="Animation" id="Animation_5kx4s"]
+resource_name = "Win"
+length = 1.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.8, 0.90000004, 1, 1.1, 1.3000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [56, 57, 58, 59, 60, 61, 61, 60, 59, 58, 57, 56]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"VictoryComplete"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sb8yw"]
 _data = {
 &"Death": SubResource("Animation_l1uaq"),
@@ -213,20 +246,23 @@ _data = {
 &"Idle": SubResource("Animation_4pgcy"),
 &"LightAttack": SubResource("Animation_11kcc"),
 &"RESET": SubResource("Animation_kysht"),
-&"Walk": SubResource("Animation_qc4um")
+&"Walk": SubResource("Animation_qc4um"),
+&"Win": SubResource("Animation_5kx4s")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pgcy"]
 size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
+[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 hitbox = NodePath("DamageEmitter")
-maxHealth = 3
-currentHealth = 3
-damageMultiplier = 1
+heavyHitbox = NodePath("HeavyDamageEmitter")
+maxHealth = 6
+currentHealth = 6
+damageMultiplier = 2
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
+position = Vector2(1, 0)
 texture = ExtResource("2_4pgcy")
 hframes = 14
 vframes = 6
@@ -243,11 +279,18 @@ collision_layer = 2
 position = Vector2(20.5, 27.5)
 shape = SubResource("RectangleShape2D_2coch")
 
-[node name="AnimationPlayer" parent="." index="4" unique_id=498136880]
+[node name="HeavyDamageEmitter" parent="." index="4" unique_id=822472442]
+collision_layer = 2
+
+[node name="CollisionShape2D" parent="HeavyDamageEmitter" index="0" unique_id=1348990358]
+position = Vector2(20.5, 27.5)
+shape = SubResource("RectangleShape2D_11kcc")
+
+[node name="AnimationPlayer" parent="." index="5" unique_id=498136880]
 libraries/ = SubResource("AnimationLibrary_sb8yw")
 autoplay = &"Idle"
 
-[node name="DamageReceiver" parent="." index="5" unique_id=647142023]
+[node name="DamageReceiver" parent="." index="6" unique_id=647142023]
 collision_layer = 16
 
 [node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
@@ -255,7 +298,9 @@ position = Vector2(0, 27.5)
 shape = SubResource("RectangleShape2D_4pgcy")
 
 [connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
+[connection signal="area_entered" from="HeavyDamageEmitter" to="." method="onHeavyHitboxEntered"]
 [connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
 
 [editable path="DamageEmitter"]
+[editable path="HeavyDamageEmitter"]
 [editable path="DamageReceiver"]
