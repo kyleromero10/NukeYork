@@ -160,6 +160,7 @@ public partial class GameMaster : Node
 				randLevel = node.LevelChoice;
 			}
 			count2++;
+		}
 		
 
 		//AddChild("Level" + randLevel, GD.Load<PackedScene>("res://Scenes/Level" + randLevel + ".tscn").Instantiate());

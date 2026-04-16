@@ -28,6 +28,12 @@ properties/6/path = NodePath(".:IsReady")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
+[sub_resource type="Gradient" id="Gradient_6eng8"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ugskl"]
+gradient = SubResource("Gradient_6eng8")
+fill_from = Vector2(1, 0)
+
 [node name="UserNPM" type="Control" unique_id=912081903 node_paths=PackedStringArray("MyName", "myID", "MyCharacter", "Level", "MyCheckBox") groups=["NPM"]]
 layout_mode = 3
 anchors_preset = 15
@@ -54,11 +60,13 @@ metadata/_edit_use_anchors_ = true
 [node name="TextEdit" type="TextEdit" parent="." unique_id=1032991322]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = -0.009548611
+anchor_top = 0.0030864198
+anchor_right = 0.9904514
+anchor_bottom = 1.0030864
 offset_left = 439.0
 offset_top = 586.0
-offset_right = -432.72498
+offset_right = -426.11
 offset_bottom = -13.0
 theme_override_fonts/font = ExtResource("2_dctxn")
 theme_override_font_sizes/font_size = 60
@@ -116,6 +124,27 @@ metadata/_edit_use_anchors_ = true
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=132415211]
 replication_config = SubResource("SceneReplicationConfig_dctxn")
 script = ExtResource("2_pnxad")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2145873077]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 207.0
+offset_right = 670.0
+offset_bottom = 557.0
+texture = SubResource("GradientTexture2D_ugskl")
+
+[node name="Label" type="Label" parent="TextureRect" unique_id=654767716]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 41.0
+offset_right = 196.0
+offset_bottom = 194.0
+text = "Placeholder
+
+would be cool to get the
+characters idling here
+when you click the
+character"
 
 [connection signal="item_selected" from="CharacterSelect" to="." method="OnCharacterChange"]
 [connection signal="item_selected" from="LevelSelect" to="." method="OnLevelChange"]
