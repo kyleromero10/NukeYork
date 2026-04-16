@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://n2h3r5cr70se" path="res://NetworkCore2.3/GenericCore.cs" id="1_pjpa4"]
 [ext_resource type="Script" uid="uid://b2fb80xs807f4" path="res://NetworkCore2.3/NetworkCore.cs" id="2_bxsma"]
-[ext_resource type="PackedScene" uid="uid://crrkm3byx2bkw" path="res://player_ui.tscn" id="3_wd1uf"]
+[ext_resource type="PackedScene" path="res://player_ui.tscn" id="3_wd1uf"]
 [ext_resource type="PackedScene" uid="uid://csq6mowkq1xl1" path="res://game_master.tscn" id="5_wd1uf"]
 
 [node name="GameRoot" type="Node" unique_id=394154124 node_paths=PackedStringArray("MainNetworkCore")]
@@ -38,6 +38,7 @@ offset_bottom = 0.21295166
 columns = 2
 
 [node name="Button" type="Button" parent="CanvasLayer" unique_id=1960857104]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -48,6 +49,7 @@ offset_bottom = -142.0
 text = "HOST"
 
 [node name="Button2" type="Button" parent="CanvasLayer" unique_id=77967166]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -64,7 +66,7 @@ mouse_filter = 2
 gameMaster = NodePath("../../GameMaster")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1225884149]
-_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://bjrkulxv2fc6s", "uid://dps0pbrk38pa", "uid://dame1d1gkpner", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
+_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://dps0pbrk38pa", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
 spawn_path = NodePath("../Spawnables")
 script = ExtResource("2_bxsma")
 

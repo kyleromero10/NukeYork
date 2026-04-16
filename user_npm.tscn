@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cagandx40m2jd"]
 
 [ext_resource type="Script" uid="uid://b61ttjmqmiipl" path="res://UserNpm.cs" id="1_1xpwo"]
+[ext_resource type="Texture2D" uid="uid://cc4301iwau5ad" path="res://Assets/UISprites/NPMBackground.png" id="2_6eng8"]
+[ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="2_dctxn"]
 [ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_pnxad"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dctxn"]
@@ -40,41 +42,57 @@ MyCharacter = NodePath("CharacterSelect")
 Level = NodePath("LevelSelect")
 MyCheckBox = NodePath("CheckBox")
 
-[node name="TextEdit" type="TextEdit" parent="." unique_id=1032991322]
-layout_mode = 0
-anchor_left = 0.40364584
-anchor_top = 0.25617284
-anchor_right = 0.5815972
-anchor_bottom = 0.33179012
-metadata/_edit_use_anchors_ = true
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=430490528]
+[node name="ColorRect" type="TextureRect" parent="." unique_id=457228418]
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.19793725, 0.19793725, 0.19793719, 1)
+texture = ExtResource("2_6eng8")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=1032991322]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 439.0
+offset_top = 586.0
+offset_right = -432.72498
+offset_bottom = -13.0
+theme_override_fonts/font = ExtResource("2_dctxn")
+theme_override_font_sizes/font_size = 60
+placeholder_text = "What's Yer Name..."
 metadata/_edit_use_anchors_ = true
 
 [node name="CharacterSelect" type="ItemList" parent="." unique_id=1386840514]
-layout_mode = 0
-anchor_left = 0.3637153
-anchor_top = 0.36265433
-anchor_right = 0.6215278
-anchor_bottom = 0.42438272
-item_count = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 101.0
+offset_top = 118.0
+offset_right = -876.0
+offset_bottom = -380.0
+theme_override_fonts/font = ExtResource("2_dctxn")
+theme_override_font_sizes/font_size = 60
+item_count = 3
 item_0/text = "Brawler"
+item_1/text = "Operative"
+item_2/text = "Scientist"
 metadata/_edit_use_anchors_ = true
 
 [node name="LevelSelect" type="ItemList" parent="." unique_id=1317725897]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.42708334
-anchor_top = 0.492284
-anchor_right = 0.5434028
-anchor_bottom = 0.55401236
-offset_top = -3.0517578e-05
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 889.0
+offset_top = 297.0
+offset_right = -85.02002
+offset_bottom = -201.0
+theme_override_fonts/font = ExtResource("2_dctxn")
+theme_override_font_sizes/font_size = 60
 item_count = 3
 item_0/text = "Streets"
 item_1/text = "Alley"
@@ -84,11 +102,15 @@ metadata/_edit_use_anchors_ = true
 [node name="CheckBox" type="CheckBox" parent="." unique_id=292983101]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.44618055
-anchor_top = 0.6867284
-anchor_right = 0.5121528
-anchor_bottom = 0.7345679
-text = "Ready"
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 574.0
+offset_top = 67.0
+offset_right = -223.0
+offset_bottom = -533.0
+theme_override_fonts/font = ExtResource("2_dctxn")
+theme_override_font_sizes/font_size = 60
+text = "You sure about this..."
 metadata/_edit_use_anchors_ = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=132415211]
