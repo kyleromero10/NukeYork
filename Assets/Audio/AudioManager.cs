@@ -61,7 +61,6 @@ if (SfxPool == null)
 		Music.Autoplay = false;
 	}
 	
-	[Callable]
 	public void PlayBgmForLevel(int levelIndex)
 	{
 		string key = levelIndex switch
@@ -82,25 +81,33 @@ if (SfxPool == null)
 		Music.Play();
 	}
 
-	[Callable]
 	public void StopBgm()
 	{
 		Music.Stop();
 		Music.Stream = null;
 	}
 
-	[Callable]
-	public void PlaySfx(string key, float volumeDb = 0f, float pitch = 1f)
-	{
-		if (!_sfx.TryGetValue(key, out var stream))
-			return;
+	public void PlaySfx(string key)
+{
+	PlaySfx(key, 0f, 1f);
+}
 
-		var player = GetFreeSfxPlayer();
-		player.Stream = stream;
-		player.VolumeDb = volumeDb;
-		player.PitchScale = pitch;
-		player.Play();
-	}
+public void PlaySfx(string key, float volumeDb)
+{
+	PlaySfx(key, volumeDb, 1f);
+}
+
+public void PlaySfx(string key, float volumeDb, float pitch)
+{
+	if (!_sfx.TryGetValue(key, out var stream))
+		return;
+
+	var player = GetFreeSfxPlayer();
+	player.Stream = stream;
+	player.VolumeDb = volumeDb;
+	player.PitchScale = pitch;
+	player.Play();
+}
 
 	private AudioStreamPlayer GetFreeSfxPlayer()
 	{
