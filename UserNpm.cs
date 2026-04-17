@@ -45,7 +45,7 @@ public partial class UserNpm : Control
 	{
 		if(myID.IsLocal)
 		{
-			//PlayerName = MyName.Text;
+			PlayerName = MyName.Text;
 			//Figure out how to get message to server
 			Rpc(MethodName.NameChangeRPC, MyName.Text);
 		}

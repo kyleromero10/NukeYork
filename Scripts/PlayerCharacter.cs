@@ -227,6 +227,10 @@ public partial class PlayerCharacter : CharacterBody2D
 				animPlayer.Play("Win");
 			}
 		}
+		if (nameBox != null)
+		{
+			nameBox.Text = playerName;
+		}
 	}
 
 

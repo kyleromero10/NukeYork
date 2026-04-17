@@ -158,6 +158,14 @@ public partial class GameMaster : Node
 
 		randLevel = rand.Next(0, myNPMs.Count);  
 
+		foreach (UserNpm node in myNPMs)
+		{
+			while (string.IsNullOrEmpty(node.PlayerName))
+			{
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+			}
+		}
+
 		foreach(UserNpm node in myNPMs)
 		{
 			if(count2 == randLevel)
