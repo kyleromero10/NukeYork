@@ -13,6 +13,7 @@ public partial class UserNpm : Control
 	[Export] public ItemList MyCharacter;
 	[Export] public ItemList Level;
 	[Export] public CheckBox MyCheckBox;
+	[Export] public Sprite2D SpriteIdle;
 
 	public override void _Ready()
 	{
@@ -58,6 +59,7 @@ public partial class UserNpm : Control
 	{
 		if(myID.IsLocal)
 		{
+			SpriteIdle.Frame = n+1;
 			//Team = n;
 			RpcId(1,"CharacterChangeRPC", n);
 			//Rpc(MethodName.CharacterChangeRPC, n);

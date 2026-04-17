@@ -253,13 +253,13 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4pgcy"]
 size = Vector2(20, 9)
 
-[node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
+[node name="PlayerCharacter2" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_qtwdr")]
 hitbox = NodePath("DamageEmitter")
 heavyHitbox = NodePath("HeavyDamageEmitter")
 maxHealth = 6
 currentHealth = 6
-radiation = 100
-damageMultiplier = 2
+damageMultiplier = 3
+speed = 150.0
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1

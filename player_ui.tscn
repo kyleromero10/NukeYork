@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b0tgbfvunkdkj" path="res://PlayerUi.cs" id="1_5m0x8"]
 [ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_654h1"]
+[ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="3_pc08v"]
+[ext_resource type="Texture2D" uid="uid://cbf24bfavc7wo" path="res://Assets/UISprites/UI.png" id="4_tybkg"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pc08v"]
 properties/0/path = NodePath("MultiplayerSynchronizer:IsNetworkReady")
@@ -18,7 +20,19 @@ properties/3/spawn = true
 properties/3/replication_mode = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_tybkg"]
-font_size = 32
+font_size = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pc08v"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tybkg"]
+bg_color = Color(0.7047851, 0, 0.058422446, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4em4"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxl1c"]
+bg_color = Color(0.16352853, 0.7224087, 0, 1)
 
 [node name="PlayerUI" type="Control" unique_id=632623158 node_paths=PackedStringArray("myId", "nameLabel", "timerLabel")]
 layout_mode = 3
@@ -39,10 +53,13 @@ script = ExtResource("2_654h1")
 [node name="Label" type="Label" parent="." unique_id=1492585641]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.36024305
-anchor_top = 0.024691358
-anchor_right = 0.65625
-anchor_bottom = 0.11265432
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 415.0
+offset_top = 16.0
+offset_right = -396.0
+offset_bottom = -575.0
+theme_override_fonts/font = ExtResource("3_pc08v")
 text = "Time Remaining: 5:00"
 label_settings = SubResource("LabelSettings_tybkg")
 horizontal_alignment = 1
@@ -50,9 +67,48 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Label2" type="Label" parent="." unique_id=976331453]
-layout_mode = 0
-anchor_left = 0.026909722
-anchor_top = 0.047839507
-anchor_right = 0.090277776
-anchor_bottom = 0.11574074
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.40711805
+anchor_top = 0.7685185
+anchor_right = 0.5842014
+anchor_bottom = 0.83641976
 metadata/_edit_use_anchors_ = true
+
+[node name="Health" type="ProgressBar" parent="." unique_id=1579657138]
+texture_filter = 1
+layout_mode = 0
+offset_left = 59.0
+offset_top = 595.0
+offset_right = 485.0
+offset_bottom = 639.0
+theme_override_fonts/font = ExtResource("3_pc08v")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/background = SubResource("StyleBoxFlat_pc08v")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tybkg")
+value = 100.0
+
+[node name="Radiation" type="ProgressBar" parent="." unique_id=1978445583]
+texture_filter = 1
+layout_mode = 0
+offset_left = 668.0
+offset_top = 596.0
+offset_right = 1092.0
+offset_bottom = 641.0
+theme_override_fonts/font = ExtResource("3_pc08v")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/background = SubResource("StyleBoxFlat_a4em4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gxl1c")
+value = 100.0
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=607892342]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.86
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.2800293
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_tybkg")

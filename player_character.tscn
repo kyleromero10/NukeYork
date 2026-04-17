@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_5up26"]
 [ext_resource type="PackedScene" uid="uid://cubtmf48yvb8v" path="res://damage_emitter.tscn" id="3_0hvvw"]
 [ext_resource type="PackedScene" uid="uid://bqk3y1qknpjof" path="res://damage_receiver.tscn" id="4_6qc1w"]
+[ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="5_6qc1w"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0hvvw"]
 properties/0/path = NodePath(".:position")
@@ -48,12 +49,19 @@ properties/12/replication_mode = 1
 properties/13/path = NodePath(".:radiation")
 properties/13/spawn = true
 properties/13/replication_mode = 1
+properties/14/path = NodePath(".:playerName")
+properties/14/spawn = true
+properties/14/replication_mode = 1
+properties/15/path = NodePath("Label:text")
+properties/15/spawn = true
+properties/15/replication_mode = 1
 
-[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1368834784 node_paths=PackedStringArray("myId", "animPlayer", "sprite")]
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1368834784 node_paths=PackedStringArray("myId", "nameBox", "animPlayer", "sprite")]
 collision_layer = 2
 collision_mask = 9
 script = ExtResource("1_02ohv")
 myId = NodePath("MultiplayerSynchronizer")
+nameBox = NodePath("Label")
 animPlayer = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 speed = 200.0
@@ -76,6 +84,16 @@ collision_mask = 96
 
 [node name="DamageReceiver" parent="." unique_id=647142023 instance=ExtResource("4_6qc1w")]
 collision_layer = 2
+
+[node name="Label" type="Label" parent="." unique_id=584272487]
+texture_filter = 1
+offset_left = -49.0
+offset_top = -47.0
+offset_right = 49.0
+offset_bottom = -24.0
+theme_override_fonts/font = ExtResource("5_6qc1w")
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
 
 [editable path="DamageEmitter"]
 [editable path="HeavyDamageEmitter"]

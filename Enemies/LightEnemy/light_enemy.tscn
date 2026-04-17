@@ -157,8 +157,8 @@ myId = NodePath("MultiplayerSynchronizer")
 animPlayer = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 hitbox = NodePath("DamageEmitter")
-maxHealth = 5
-currentHealth = 5
+maxHealth = 7
+currentHealth = 7
 damageMultiplier = 2
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]

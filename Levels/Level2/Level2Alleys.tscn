@@ -351,7 +351,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_vt2c5"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 129
 sources/0 = SubResource("TileSetAtlasSource_hmrwt")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_egdgr"]
@@ -928,6 +928,7 @@ position = Vector2(407, -373.5)
 shape = SubResource("RectangleShape2D_h21si")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=611764382]
+zoom = Vector2(2, 2)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1995037513]
 replication_config = SubResource("SceneReplicationConfig_vuj2u")

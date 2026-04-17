@@ -58,6 +58,9 @@ SpawnInexZeroOnConnect = true
 
 [node name="GameRoot" parent="." unique_id=394154124 instance=ExtResource("3_3r1pa")]
 
+[node name="PlayerUI" parent="GameRoot/CanvasLayer" parent_id_path=PackedInt32Array(394154124, 233426745) index="3" unique_id=632623158]
+visible = false
+
 [node name="MultiplayerSpawner" parent="GameRoot" index="1" unique_id=1225884149]
 _spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://gmdqc7w6tynh", "uid://b6ls3jkinchbh", "uid://ba4066lj557sk", "uid://dps0pbrk38pa", "uid://pkpd3g0mxbdq", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
 

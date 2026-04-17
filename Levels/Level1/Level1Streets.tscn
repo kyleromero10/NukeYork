@@ -351,7 +351,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_o7r5f"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 129
 sources/0 = SubResource("TileSetAtlasSource_tkcof")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_anmrc"]
@@ -829,6 +829,15 @@ size = Vector2(440, 746)
 size = Vector2(335, 388)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4v71h"]
+properties/0/path = NodePath("MultiplayerSynchronizer:IsNetworkReady")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("MultiplayerSynchronizer:IsSynced")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("MultiplayerSynchronizer:OwnerId")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Level1" type="Node2D" unique_id=33927704]
 z_index = -1
@@ -925,6 +934,7 @@ position = Vector2(885.5, -69)
 shape = SubResource("RectangleShape2D_8ul5p")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1242608028]
+zoom = Vector2(2, 2)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1977085333]
 replication_config = SubResource("SceneReplicationConfig_4v71h")

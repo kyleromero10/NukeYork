@@ -351,7 +351,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_kf2ij"]
 tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 129
 sources/0 = SubResource("TileSetAtlasSource_0ps3l")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_txf8u"]
@@ -482,6 +482,7 @@ texture_region_size = Vector2i(32, 32)
 9:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-12.107969, 16, 11.789337, 16, 11.789337, 2.5490456, -12.107969, 2.5490456)
 10:7/0 = 0
 11:7/0 = 0
+11:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.691246, 16, -1.9117851, -2.2304153, 1.5931549, -1.9117851, 6.691246, 16)
 12:7/0 = 0
 12:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.6471386, -3.5049381, 16, -4.1422005, 16, 16, -8.921661, 16)
 13:7/0 = 0
@@ -504,7 +505,7 @@ texture_region_size = Vector2i(32, 32)
 9:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 13.063862, 16, 13.382492, 11.789337, -16, -11.152077, -16)
 10:8/0 = 0
 11:8/0 = 0
-11:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-13.063862, 9.558922, 12.745232, 8.284401, 12.745232, -8.603029, -12.4265995, -9.558922)
+11:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-13.063862, 9.558922, 12.107967, 9.877552, 8.603031, -16, -7.965769, -16)
 12:8/0 = 0
 12:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.196184, -16, -8.603031, 16, 16, 16, 16, -16)
 13:8/0 = 0
@@ -937,6 +938,7 @@ position = Vector2(1150, 821)
 shape = SubResource("RectangleShape2D_naadl")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=363704430]
+zoom = Vector2(2, 2)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1399858883]
 replication_config = SubResource("SceneReplicationConfig_0t17m")
