@@ -13,7 +13,7 @@ public partial class PlayerCharacter : CharacterBody2D
 	[Export] public string playerName;
 	[Export] public int maxHealth;
 	[Export] public int currentHealth;
-	[Export] public int radiation;
+	[Export] public float radiation;
 	[Export] public bool isInRadiation;
 	[Export] public float deathTimer = 5;
 	[Export] public int damageMultiplier;
@@ -72,14 +72,30 @@ public partial class PlayerCharacter : CharacterBody2D
 					deathTimer = 3f;
 				}
 			}
+
+			if(isInRadiation == true)
+			{
+				radiation -= (float)delta;
+				GD.Print("Radiation:" + radiation);
+			}
+
 			if(radiation >= 100)
 			{
+				GD.Print("old damage and speed:" + damageMultiplier + " " + speed);
 				isInRadiation = true;
+				radiation = 99;
+				damageMultiplier += 1;
+				speed += 100;
+				GD.Print("new damage and speed:" + damageMultiplier + " " + speed);
 			}
-			else if(radiation <= 0)
+			else if(radiation < 0)
 			{
+				GD.Print("old damage and speed:" + damageMultiplier + " " + speed);
 				isInRadiation = false;
+				damageMultiplier = 1;
+				speed += 100;
 				radiation = 0;
+				GD.Print("new damage and speed:" + damageMultiplier + " " + speed);
 			}
 
 			flipSprite();
@@ -285,7 +301,7 @@ public partial class PlayerCharacter : CharacterBody2D
 			if(damageReceiver is DamageReceiver)
 			{
 				damageReceiver.EmitSignal("OnHitEnemy", damageMultiplier*2, this);
-				radiation += 5;
+				radiation += 1;
 				GD.Print("Hitbox entered: " + damageReceiver.Name);
 			}
 		}

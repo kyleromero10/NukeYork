@@ -279,7 +279,10 @@ shape = SubResource("RectangleShape2D_dd0p8")
 libraries/ = SubResource("AnimationLibrary_qlxvj")
 autoplay = &"Idle"
 
-[node name="CollisionShape2D" parent="DamageReceiver" parent_id_path=PackedInt32Array(647142023) index="0" unique_id=369906974]
+[node name="DamageReceiver" parent="." index="6" unique_id=647142023]
+collision_layer = 16
+
+[node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
 position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_re8so")
 
