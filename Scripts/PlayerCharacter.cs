@@ -79,21 +79,21 @@ public partial class PlayerCharacter : CharacterBody2D
 				GD.Print("Radiation:" + radiation);
 			}
 
-			if(radiation >= 100)
+			if(radiation >= 100 && !isInRadiation)
 			{
 				GD.Print("old damage and speed:" + damageMultiplier + " " + speed);
 				isInRadiation = true;
-				radiation = 99;
+				radiation = 100;
 				damageMultiplier += 1;
 				speed += 100;
 				GD.Print("new damage and speed:" + damageMultiplier + " " + speed);
 			}
-			else if(radiation < 0)
+			else if(radiation < 0 && isInRadiation)
 			{
 				GD.Print("old damage and speed:" + damageMultiplier + " " + speed);
 				isInRadiation = false;
-				damageMultiplier = 1;
-				speed += 100;
+				damageMultiplier -= 1;
+				speed -= 100;
 				radiation = 0;
 				GD.Print("new damage and speed:" + damageMultiplier + " " + speed);
 			}
