@@ -19,6 +19,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:winnerPos")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath(".:disconnectTimer")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="GameMaster" type="Node" unique_id=1639468073 node_paths=PackedStringArray("myId")]
 script = ExtResource("1_5yk56")

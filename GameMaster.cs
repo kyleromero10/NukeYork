@@ -13,6 +13,7 @@ public partial class GameMaster : Node
 
 	[Export] public float GameTimer = 30;
 	[Export] public float EnemyWaveTimer = 10;
+	[Export] public float disconnectTimer = 10;
 	public Random rand = new Random();
 	[Export] public Vector2 winnerPos = Vector2.Zero;
 	[Export] public int randLevel;
@@ -81,6 +82,7 @@ public partial class GameMaster : Node
 		{
 			if(GenericCore.Instance.IsServer)
 			{
+				disconnectTimer -= (float)delta;
 				var e = GetTree().GetNodesInGroup("Enemy");
 				foreach(Enemy enemy in e)
 				{
@@ -108,7 +110,17 @@ public partial class GameMaster : Node
 					}
 				}
 
+
 			}
+
+			if(!GenericCore.Instance.IsServer)
+			{
+				if(disconnectTimer <= 0)
+				{
+					GenericCore.Instance.DisconnectFromGame();
+				}
+			}
+
 			//Show end game screen.
 		}
 	}
