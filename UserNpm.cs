@@ -14,6 +14,15 @@ public partial class UserNpm : Control
 	[Export] public ItemList Level;
 	[Export] public CheckBox MyCheckBox;
 	[Export] public Sprite2D SpriteIdle;
+	[Export] public float R = 1f;
+	[Export] public float G = 1f;
+	[Export] public float B = 1f;
+	[Export] public HSlider RSlider;
+	[Export] public HSlider GSlider;
+	[Export] public HSlider BSlider;
+	[Export] public Label RLabel;
+	[Export] public Label GLabel;
+	[Export] public Label BLabel;
 
 	public override void _Ready()
 	{
@@ -82,6 +91,45 @@ public partial class UserNpm : Control
 		{
 			Rpc(MethodName.IsReadyChange, r);
 		}
+	}
+
+	public void OnRChanged(float value)
+	{
+		if (!myID.IsLocal) return;
+
+		R = value;
+
+		if (RLabel != null)
+			RLabel.Text = ((int)(R)).ToString();
+		R = value / 255f;
+		if (SpriteIdle != null)
+			SpriteIdle.Modulate = new Color(R, G, B);
+	}
+
+	public void OnGChanged(float value)
+	{
+		if (!myID.IsLocal) return;
+	
+		G = value;
+
+		if (GLabel != null)
+			GLabel.Text = ((int)(G)).ToString();
+		G = value / 255f;	
+		if (SpriteIdle != null)
+			SpriteIdle.Modulate = new Color(R, G, B);
+	}
+
+	public void OnBChanged(float value)
+	{
+		if (!myID.IsLocal) return;
+
+		B = value;
+
+		if (BLabel != null)
+			BLabel.Text = ((int)(B)).ToString();
+		B = value / 255f;
+		if (SpriteIdle != null)
+			SpriteIdle.Modulate = new Color(R, G, B);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
