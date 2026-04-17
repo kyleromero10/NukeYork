@@ -258,6 +258,7 @@ heavyHitbox = NodePath("HeavyDamageEmitter")
 maxHealth = 5
 currentHealth = 5
 damageMultiplier = 2
+characterClass = 1
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1

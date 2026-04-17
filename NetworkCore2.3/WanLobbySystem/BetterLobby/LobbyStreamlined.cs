@@ -285,106 +285,106 @@ public partial class LobbyStreamlined : Node
 				Control child = (Control)c;
 
 				// Find the button inside the child (assume it's direct child)
-                Button btn = child.GetNode<Button>("Button");
+				Button btn = child.GetNode<Button>("Button");
 
-                if (btn != null && btn.Visible)
-                {
-                    // Make the child 32 pixels high
-                    //child.CustomMinimumSize = new Vector2(0, 32);
-                    //child.Visible = true;
-                }
-                else
-                {
-                    // Collapse the child
-                    //child.CustomMinimumSize = Vector2.Zero;
-                    //child.Visible = false; // optional if you want full collapse
-                }
-            }
-        }
+				if (btn != null && btn.Visible)
+				{
+					// Make the child 32 pixels high
+					//child.CustomMinimumSize = new Vector2(0, 32);
+					//child.Visible = true;
+				}
+				else
+				{
+					// Collapse the child
+					//child.CustomMinimumSize = Vector2.Zero;
+					//child.Visible = false; // optional if you want full collapse
+				}
+			}
+		}
 
-        // Force the container to recalc layout
-        vbox.QueueSort();
-    }
+		// Force the container to recalc layout
+		vbox.QueueSort();
+	}
 
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void ProcessSpawnServerSide(String n)
-    {
-        if (IsWanLobbyServer)
-        {
-            try
-            {
-                System.Diagnostics.Process proc = new System.Diagnostics.Process();
-                proc.StartInfo.UseShellExecute = true;     
-                string[] args = OS.GetCmdlineArgs(); ;
-                proc.StartInfo.FileName = OS.GetExecutablePath();
-                proc.StartInfo.Arguments += "--headless GAMESERVER " +(PortMinimum+ portOffset) + " GAMENAME#"+n+" > "+n+".log";
-                GD.Print("Starting Game Server With: "+proc.StartInfo.Arguments);
-                portOffset++;
-                Rpc("UpdatePortOffset", portOffset);
-                proc.Start();
-                if (MaxGameTime > 0)
-                {
-                    GameMonitor(proc);
-                }
-            }
-            catch (System.Exception e)
-            {
-                GD.Print("EXCEPTION - in creating a game!!! - " + e.ToString());
-            }
-        }
-    }
-    [Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    public void UpdatePortOffset(int p)
-    {
-        if (!IsWanLobbyServer)
-        {
-            portOffset = p;
-        }
-    }
-    public async void GameMonitor(System.Diagnostics.Process proc)
-    {
-        await ToSignal(GetTree().CreateTimer(MaxGameTime), SceneTreeTimer.SignalName.Timeout);
-        if(!proc.HasExited)
-        {
-            proc.Kill();
-        }
-    }
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void ProcessSpawnServerSide(String n)
+	{
+		if (IsWanLobbyServer)
+		{
+			try
+			{
+				System.Diagnostics.Process proc = new System.Diagnostics.Process();
+				proc.StartInfo.UseShellExecute = true;     
+				string[] args = OS.GetCmdlineArgs(); ;
+				proc.StartInfo.FileName = OS.GetExecutablePath();
+				proc.StartInfo.Arguments += "--headless GAMESERVER " +(PortMinimum+ portOffset) + " GAMENAME#"+n+" > "+n+".log";
+				GD.Print("Starting Game Server With: "+proc.StartInfo.Arguments);
+				portOffset++;
+				Rpc("UpdatePortOffset", portOffset);
+				proc.Start();
+				if (MaxGameTime > 0)
+				{
+					GameMonitor(proc);
+				}
+			}
+			catch (System.Exception e)
+			{
+				GD.Print("EXCEPTION - in creating a game!!! - " + e.ToString());
+			}
+		}
+	}
+	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void UpdatePortOffset(int p)
+	{
+		if (!IsWanLobbyServer)
+		{
+			portOffset = p;
+		}
+	}
+	public async void GameMonitor(System.Diagnostics.Process proc)
+	{
+		await ToSignal(GetTree().CreateTimer(MaxGameTime), SceneTreeTimer.SignalName.Timeout);
+		if(!proc.HasExited)
+		{
+			proc.Kill();
+		}
+	}
 
-    public void CreatNewGameServer()
-    {
-        if (GameNameBox.Text.Length < 2)
-        {
-            return;
-        }
-        int currentPort = portOffset;
-        
+	public void CreatNewGameServer()
+	{
+		if (GameNameBox.Text.Length < 2)
+		{
+			return;
+		}
+		int currentPort = portOffset;
+		
 		RpcId(1, "ProcessSpawnServerSide", GameNameBox.Text.Replace(' ','-').Replace('\n','-').Replace('#','-'));
-        WaitForGameToStart(portOffset);
-    }
-    public async void WaitForGameToStart(int p)
-    {
-        GenericCore.Instance.SetPort((p + PortMinimum).ToString());
-        GenericCore.Instance.SetIP(LobbyServerIP);
-        while (p == portOffset)
-        {
-            await ToSignal(GetTree().CreateTimer(.1f), SceneTreeTimer.SignalName.Timeout);
-        }
-        await ToSignal(GetTree().CreateTimer(2.5f), SceneTreeTimer.SignalName.Timeout);
-        GenericCore.Instance.JoinGame();
-    }
-    public void DisconnectFromLobbySystem()
-    {
-        if (AgentAPI.MultiplayerPeer != null)
-        {
-            GD.Print("Disconnecting from ENet session<Lobby>");
+		WaitForGameToStart(portOffset);
+	}
+	public async void WaitForGameToStart(int p)
+	{
+		GenericCore.Instance.SetPort((p + PortMinimum).ToString());
+		GenericCore.Instance.SetIP(LobbyServerIP);
+		while (p == portOffset)
+		{
+			await ToSignal(GetTree().CreateTimer(.1f), SceneTreeTimer.SignalName.Timeout);
+		}
+		await ToSignal(GetTree().CreateTimer(2.5f), SceneTreeTimer.SignalName.Timeout);
+		GenericCore.Instance.JoinGame();
+	}
+	public void DisconnectFromLobbySystem()
+	{
+		if (AgentAPI.MultiplayerPeer != null)
+		{
+			GD.Print("Disconnecting from ENet session<Lobby>");
 
-            // Close the connection
-            AgentAPI.MultiplayerPeer.Close();
+			// Close the connection
+			AgentAPI.MultiplayerPeer.Close();
 
-            // Remove the peer from the Multiplayer API
-            AgentAPI.MultiplayerPeer = null;
+			// Remove the peer from the Multiplayer API
+			AgentAPI.MultiplayerPeer = null;
 
-        }
-    }
+		}
+	}
 }

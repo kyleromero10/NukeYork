@@ -28,6 +28,10 @@ public partial class PlayerCharacter : CharacterBody2D
 	}
 	[Export] public PlayerState state = PlayerState.Idle;
 	
+	private PlayerState _prevState = PlayerState.Idle;
+	[Export] public int characterClass = 0; 
+	// 0=Brawler, 1=Operative, 2=Scientist (set in inspector per character scene)
+	
 
 	public enum PlayerState
 	{
@@ -146,6 +150,52 @@ public partial class PlayerCharacter : CharacterBody2D
 		}
 		if(!GenericCore.Instance.IsServer)
 		{
+			//SFX
+			if (state != _prevState)
+{
+	var audio = GetNodeOrNull<Node>("/root/AudioManager");
+	if (audio != null)
+	{
+		// Attack SFX (per class)
+		if (state == PlayerState.LightAttack)
+		{
+			string key = characterClass switch
+			{
+				0 => "LightMelee",  // Brawler
+				1 => "LightMelee",  // Operative 
+				2 => "ShootAttack", // Scientist
+				_ => "LightMelee"
+			};
+			audio.Call("PlaySfx", key);
+		}
+		else if (state == PlayerState.HeavyAttack)
+		{
+			string key = characterClass switch
+			{
+				0 => "HeavyMelee",  // Brawler
+				1 => "HeavyMelee",  // Operative 
+				2 => "ShootAttack", // Scientist 
+				_ => "HeavyMelee"
+			};
+			audio.Call("PlaySfx", key);
+		}
+		else if (state == PlayerState.Hurt)
+		{
+			audio.Call("PlaySfx", "Hurt");
+		}
+		else if (state == PlayerState.Idle && _prevState == PlayerState.Dead)
+		{
+			audio.Call("PlaySfx", "Revive");
+		}
+		else if (state == PlayerState.Win)
+		{
+			audio.Call("PlaySfx", "YouWin");
+		}
+	}
+
+	_prevState = state;
+}
+
 			flipSprite();
 
 			if(state == PlayerState.Idle)

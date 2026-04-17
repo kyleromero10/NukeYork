@@ -25,6 +25,11 @@ public partial class Enemy : CharacterBody2D
 	Vector2 directionToPlayer = Vector2.Zero;
 	
 
+	private PlayerState _prevState = PlayerState.Moving;
+	[Export] public int enemyType = 0; 
+	// 0=light, 1=medium, 2=heavy (set in inspector per enemy scene)
+	
+
 	public enum PlayerState
 	{
 		Moving,
@@ -94,6 +99,30 @@ public partial class Enemy : CharacterBody2D
 		}
 		if(!GenericCore.Instance.IsServer)
 		{
+			if (state != _prevState)
+{
+	var audio = GetNodeOrNull<Node>("/root/AudioManager");
+	if (audio != null)
+	{
+		if (state == PlayerState.Attack)
+		{
+			string key = enemyType switch
+			{
+				0 => "LabSpecialEnemyAttack",
+				1 => "HeavyEnemyAttack",
+				2 => "LightEnemyAttack",
+				_ => "LightEnemyAttack"
+			};
+			audio.Call("PlaySfx", key);
+		}
+		else if (state == PlayerState.Hurt)
+		{
+			audio.Call("PlaySfx", "Hurt");
+		}
+	}
+
+	_prevState = state;
+}
 			flipSprite();
 
 

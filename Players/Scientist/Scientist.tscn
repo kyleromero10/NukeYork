@@ -253,6 +253,7 @@ maxHealth = 5
 currentHealth = 5
 damageMultiplier = 1
 speed = 300.0
+characterClass = 2
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
@@ -283,9 +284,6 @@ collision_layer = 16
 [node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
 position = Vector2(0, 27.5)
 shape = SubResource("RectangleShape2D_gnxvl")
-
-[node name="Label" parent="." index="7" unique_id=584272487]
-text = ""
 
 [connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
 [connection signal="area_entered" from="HeavyDamageEmitter" to="." method="onHeavyHitboxEntered"]
