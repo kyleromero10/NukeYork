@@ -276,7 +276,7 @@ public partial class Enemy : CharacterBody2D
 				currentHealth = 0;
 				GD.Print("Enemy died");
 			}
-			else
+			else if(state != PlayerState.Dead)
 			{
 				state = PlayerState.Hurt;
 				GD.Print("Enemy hurt");
