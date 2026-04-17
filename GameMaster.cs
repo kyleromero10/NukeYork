@@ -181,7 +181,8 @@ public partial class GameMaster : Node
 			Marker2D spawn = (Marker2D)spawns[count];
 			PlayerCharacter temp = (PlayerCharacter)GenericCore.Instance.MainNetworkCore.NetCreateObject(node.Character, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
 				Quaternion.Identity, node.myID.OwnerId); //Spawn the player character.
-			temp.playerName = "P" + (count + 1);
+			//temp.playerName = "P" + (count + 1);
+			temp.playerName = node.PlayerName;
 			count++;
 			localID = temp.myId;
 		}

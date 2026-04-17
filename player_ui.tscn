@@ -34,7 +34,7 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxl1c"]
 bg_color = Color(0.16352853, 0.7224087, 0, 1)
 
-[node name="PlayerUI" type="Control" unique_id=632623158 node_paths=PackedStringArray("myId", "nameLabel", "timerLabel")]
+[node name="PlayerUI" type="Control" unique_id=632623158 node_paths=PackedStringArray("myId", "nameLabel", "healthBar", "radiationBar", "timerLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +44,8 @@ grow_vertical = 2
 script = ExtResource("1_5m0x8")
 myId = NodePath("MultiplayerSynchronizer")
 nameLabel = NodePath("Label2")
+healthBar = NodePath("healthBar")
+radiationBar = NodePath("radiationBar")
 timerLabel = NodePath("Label")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=736483895]
@@ -75,7 +77,7 @@ anchor_right = 0.5842014
 anchor_bottom = 0.83641976
 metadata/_edit_use_anchors_ = true
 
-[node name="Health" type="ProgressBar" parent="." unique_id=1579657138]
+[node name="healthBar" type="ProgressBar" parent="." unique_id=1579657138]
 texture_filter = 1
 layout_mode = 0
 offset_left = 59.0
@@ -88,7 +90,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_pc08v")
 theme_override_styles/fill = SubResource("StyleBoxFlat_tybkg")
 value = 100.0
 
-[node name="Radiation" type="ProgressBar" parent="." unique_id=1978445583]
+[node name="radiationBar" type="ProgressBar" parent="." unique_id=1978445583]
 texture_filter = 1
 layout_mode = 0
 offset_left = 668.0

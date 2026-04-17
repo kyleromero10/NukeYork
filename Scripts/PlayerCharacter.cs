@@ -4,7 +4,7 @@ using System;
 public partial class PlayerCharacter : CharacterBody2D
 {
 	[Export] public NetID myId;
-	//[Export] public Label nameBox;
+	[Export] public Label nameBox;
 	[Export] public AnimationPlayer animPlayer;
 	[Export] public Sprite2D sprite;
 	[Export] public Area2D hitbox;
@@ -44,7 +44,7 @@ public partial class PlayerCharacter : CharacterBody2D
 	public void Synchronized()
 	{
 	   
-		//nameBox.Text = playerName;
+		nameBox.Text = playerName;
 	}
 
 

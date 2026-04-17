@@ -134,6 +134,7 @@ scale = Vector2(7, 7)
 texture = ExtResource("5_ugskl")
 hframes = 4
 
+[connection signal="text_changed" from="TextEdit" to="." method="OnNameChanged"]
 [connection signal="item_selected" from="CharacterSelect" to="." method="OnCharacterChange"]
 [connection signal="item_selected" from="LevelSelect" to="." method="OnLevelChange"]
 [connection signal="toggled" from="CheckBox" to="." method="OnToggleChange"]
