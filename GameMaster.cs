@@ -11,8 +11,8 @@ public partial class GameMaster : Node
 	[Export]
 	public bool GameStarted;
 
-	[Export] public float GameTimer = 15;
-	[Export] public float EnemyWaveTimer = 15;
+	[Export] public float GameTimer = 30;
+	[Export] public float EnemyWaveTimer = 10;
 	public Random rand = new Random();
 	[Export] public Vector2 winnerPos = Vector2.Zero;
 	[Export] public int randLevel;
@@ -54,8 +54,14 @@ public partial class GameMaster : Node
 					foreach(Marker2D spawn in spawns)
 					{
 						GD.Print("Spawning enemy at: " + spawn.GlobalPosition);
-						int enemyType = rand.Next(1, 3);
-						GenericCore.Instance.MainNetworkCore.NetCreateObject(2, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
+						int enemyType = rand.Next(1, 6);
+						if(enemyType == 1 || enemyType == 2 || enemyType == 3)
+							enemyType = 1;
+						else if(enemyType == 4 || enemyType == 5)
+							enemyType = 2;
+						else
+							enemyType = 3;
+						GenericCore.Instance.MainNetworkCore.NetCreateObject(enemyType + 2, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
 							Quaternion.Identity, localID.OwnerId); //Spawn an enemy.
 					}
 					//Spawn an enemy.
@@ -147,7 +153,6 @@ public partial class GameMaster : Node
 		 Rpc(MethodName.HideNPMsRPC);
 
 		var myNPMs = GetTree().GetNodesInGroup("NPM");
-		var spawns = GetTree().GetNodesInGroup("PlayerSpawns");
 		int count = 0;
 		int count2 = 0;
 
@@ -157,15 +162,18 @@ public partial class GameMaster : Node
 		{
 			if(count2 == randLevel)
 			{
-				randLevel = node.LevelChoice;
+				levelChoice = node.LevelChoice;
 			}
 			count2++;
 		}
 		
 
 		//AddChild("Level" + randLevel, GD.Load<PackedScene>("res://Scenes/Level" + randLevel + ".tscn").Instantiate());
-		GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 4, Vector3.Zero,
-				Quaternion.Identity, localID.OwnerId);   
+		GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 6, Vector3.Zero,
+				Quaternion.Identity);   
+		//await ToSignal(GetTree().CreateTimer(.5f), SceneTreeTimer.SignalName.Timeout); 
+
+		var spawns = GetTree().GetNodesInGroup("PlayerSpawns");
 
 		//Create the characters
 		foreach(UserNpm node in myNPMs)
@@ -178,10 +186,10 @@ public partial class GameMaster : Node
 			localID = temp.myId;
 		}
 
-		GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 4, Vector3.Zero,
-				Quaternion.Identity, localID.OwnerId);
+		//GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 6, Vector3.Zero,
+		//		Quaternion.Identity, localID.OwnerId);
 
-		GenericCore.Instance.MainNetworkCore.NetCreateObject(2, new Vector3(300, 200, 0),
+		GenericCore.Instance.MainNetworkCore.NetCreateObject(5, new Vector3(300, 200, 0),
 				Quaternion.Identity, localID.OwnerId); //Spawn an enemy for testing.
 
 		//Create the users' characters.

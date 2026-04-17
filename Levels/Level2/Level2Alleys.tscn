@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://bagjih2nddblx"]
 
 [ext_resource type="Texture2D" uid="uid://ca1x5g82m0a0x" path="res://Levels/SpriteSheet/Level1Sheet.png" id="1_vuj2u"]
+[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_j3k5m"]
 
 [sub_resource type="Gradient" id="Gradient_egdgr"]
 
@@ -822,6 +823,15 @@ size = Vector2(2411, 224)
 size = Vector2(2792, 425)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vuj2u"]
+properties/0/path = NodePath("MultiplayerSynchronizer:IsNetworkReady")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("MultiplayerSynchronizer:IsSynced")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("MultiplayerSynchronizer:OwnerId")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Level2" type="Node2D" unique_id=33969784]
 z_index = -1
@@ -917,5 +927,8 @@ shape = SubResource("RectangleShape2D_5kkkh")
 position = Vector2(407, -373.5)
 shape = SubResource("RectangleShape2D_h21si")
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=611764382]
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1995037513]
 replication_config = SubResource("SceneReplicationConfig_vuj2u")
+script = ExtResource("2_j3k5m")

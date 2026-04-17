@@ -277,6 +277,10 @@ autoplay = &"Idle"
 position = Vector2(0, 27.5)
 shape = SubResource("RectangleShape2D_gnxvl")
 
+[connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
+[connection signal="area_entered" from="HeavyDamageEmitter" to="." method="onHeavyHitboxEntered"]
+[connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
+
 [editable path="DamageEmitter"]
 [editable path="HeavyDamageEmitter"]
 [editable path="DamageReceiver"]

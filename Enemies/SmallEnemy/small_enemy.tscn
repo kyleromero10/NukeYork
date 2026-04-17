@@ -182,6 +182,7 @@ autoplay = &"Walk"
 
 [node name="DamageReceiver" parent="." index="5" unique_id=647142023]
 position = Vector2(1, 22)
+collision_layer = 32
 
 [node name="CollisionShape2D" parent="DamageReceiver" index="0" unique_id=369906974]
 position = Vector2(-1.5, 5)

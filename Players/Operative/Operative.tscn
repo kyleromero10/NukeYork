@@ -253,7 +253,7 @@ _data = {
 size = Vector2(20, 10)
 
 [node name="PlayerCharacter" unique_id=1368834784 node_paths=PackedStringArray("hitbox", "heavyHitbox") groups=["Player"] instance=ExtResource("1_hwv7i")]
-hitbox = NodePath("DamageReceiver")
+hitbox = NodePath("DamageEmitter")
 heavyHitbox = NodePath("HeavyDamageEmitter")
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
@@ -284,6 +284,7 @@ position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_re8so")
 
 [connection signal="area_entered" from="DamageEmitter" to="." method="onHitboxEntered"]
+[connection signal="area_entered" from="HeavyDamageEmitter" to="." method="onHeavyHitboxEntered"]
 [connection signal="OnHit" from="DamageReceiver" to="." method="onHit"]
 
 [editable path="DamageEmitter"]
