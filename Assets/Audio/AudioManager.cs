@@ -18,6 +18,17 @@ public partial class AudioManager : Node
 
 	public override void _Ready()
 	{
+		if (Music == null)
+{
+	GD.PushError("AudioManager: Music reference not set (exported field).");
+	return;
+}
+if (SfxPool == null)
+{
+	GD.PushError("AudioManager: SfxPool reference not set (exported field).");
+	return;
+}
+		
 		// Load BGM
 		_bgm["Level1"] = GD.Load<AudioStream>("res://Assets/Audio/BGM/CityLevel.wav");
 		_bgm["Level2"] = GD.Load<AudioStream>("res://Assets/Audio/BGM/BunkerLevel.wav");
@@ -49,7 +60,8 @@ public partial class AudioManager : Node
 		Music.Bus = "Music";
 		Music.Autoplay = false;
 	}
-
+	
+	[Callable]
 	public void PlayBgmForLevel(int levelIndex)
 	{
 		string key = levelIndex switch
@@ -70,12 +82,14 @@ public partial class AudioManager : Node
 		Music.Play();
 	}
 
+	[Callable]
 	public void StopBgm()
 	{
 		Music.Stop();
 		Music.Stream = null;
 	}
 
+	[Callable]
 	public void PlaySfx(string key, float volumeDb = 0f, float pitch = 1f)
 	{
 		if (!_sfx.TryGetValue(key, out var stream))
