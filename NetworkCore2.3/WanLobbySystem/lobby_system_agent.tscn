@@ -1,7 +1,6 @@
-[gd_scene format=3 uid="uid://cs7s4kaurdy11"]
+[gd_scene load_steps=3 format=3 uid="uid://cs7s4kaurdy11"]
 
-[ext_resource type="Script" uid="uid://b3bmwbi4tj8it" path="res://NetworkCore2.3/WanLobbySystem/LobbySystemAgent.cs" id="1_5ay6b"]
-[ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="2_0qdic"]
+[ext_resource type="Script" uid="uid://b3bmwbi4tj8it" path="res://NetworkCore/WanLobbySystem/LobbySystemAgent.cs" id="1_5ay6b"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i7q6c"]
 properties/0/path = NodePath("Button:visible")
@@ -23,7 +22,7 @@ properties/5/path = NodePath(".:IsGameServer")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
-[node name="LobbySystemAgent" type="Control" unique_id=1072488006 node_paths=PackedStringArray("myId", "GameButton")]
+[node name="LobbySystemAgent" type="Control" node_paths=PackedStringArray("myId", "GameButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,19 +33,16 @@ script = ExtResource("1_5ay6b")
 myId = NodePath("MultiplayerSynchronizer")
 GameButton = NodePath("Button")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=378193434]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_i7q6c")
 
-[node name="Button" type="Button" parent="." unique_id=1951409312]
-texture_filter = 1
+[node name="Button" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.187
 anchor_bottom = 0.086
 offset_right = 0.57598877
 offset_bottom = 0.27199936
-theme_override_fonts/font = ExtResource("2_0qdic")
-theme_override_font_sizes/font_size = 63
 text = "Join Game"
 
 [connection signal="pressed" from="Button" to="." method="Click"]

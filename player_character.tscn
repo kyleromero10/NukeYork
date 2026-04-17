@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ihy20q4diyvv"]
 
 [ext_resource type="Script" uid="uid://1wa6oiqw73x4" path="res://Scripts/PlayerCharacter.cs" id="1_02ohv"]
-[ext_resource type="Script" uid="uid://yo2i7m3b6pph" path="res://NetworkCore2.3/NetID.cs" id="2_5up26"]
+[ext_resource type="Script" path="res://NetworkCore/NetID.cs" id="2_6qc1w"]
 [ext_resource type="PackedScene" uid="uid://cubtmf48yvb8v" path="res://damage_emitter.tscn" id="3_0hvvw"]
 [ext_resource type="PackedScene" uid="uid://bqk3y1qknpjof" path="res://damage_receiver.tscn" id="4_6qc1w"]
 [ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="5_6qc1w"]
@@ -72,7 +72,7 @@ speed = 200.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=815040872]
 replication_config = SubResource("SceneReplicationConfig_0hvvw")
-script = ExtResource("2_5up26")
+script = ExtResource("2_6qc1w")
 
 [node name="DamageEmitter" parent="." unique_id=1450132725 instance=ExtResource("3_0hvvw")]
 collision_mask = 96

@@ -22,6 +22,9 @@ public partial class LobbyStreamlined : Node
 	[Export]
 	private int portOffset = 1;
 
+	[Export]
+	private int PortMaximum;
+
 	public string LobbyServerIP;
 	private bool UsePublic;
 	private bool UsePrivate;
@@ -181,7 +184,7 @@ public partial class LobbyStreamlined : Node
 				else
 				{
 					LobbyServerIP = "127.0.0.1";
-					GD.Print("The Private IP failed to respond");
+					GD.Print("The Florida Poly IP failed to respond");
 					UsePrivate = false;
 				}
 			}
@@ -310,6 +313,7 @@ public partial class LobbyStreamlined : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void ProcessSpawnServerSide(String n)
 	{
+		GD.PrintErr("In the Server");
 		if (IsWanLobbyServer)
 		{
 			try
@@ -321,6 +325,10 @@ public partial class LobbyStreamlined : Node
 				proc.StartInfo.Arguments += "--headless GAMESERVER " +(PortMinimum+ portOffset) + " GAMENAME#"+n+" > "+n+".log";
 				GD.Print("Starting Game Server With: "+proc.StartInfo.Arguments);
 				portOffset++;
+				if(PortMinimum + portOffset>PortMaximum)
+				{
+					portOffset = 1;
+				}
 				Rpc("UpdatePortOffset", portOffset);
 				proc.Start();
 				if (MaxGameTime > 0)
@@ -358,6 +366,7 @@ public partial class LobbyStreamlined : Node
 			return;
 		}
 		int currentPort = portOffset;
+		
 		
 		RpcId(1, "ProcessSpawnServerSide", GameNameBox.Text.Replace(' ','-').Replace('\n','-').Replace('#','-'));
 		WaitForGameToStart(portOffset);
