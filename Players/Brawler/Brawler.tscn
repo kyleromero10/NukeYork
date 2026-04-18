@@ -8,10 +8,10 @@ radius = 3.0
 height = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2coch"]
-size = Vector2(27, 9)
+size = Vector2(30, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11kcc"]
-size = Vector2(27, 9)
+size = Vector2(36, 9)
 
 [sub_resource type="Animation" id="Animation_l1uaq"]
 resource_name = "Death"
@@ -277,14 +277,14 @@ shape = SubResource("CapsuleShape2D_67b3l")
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="DamageEmitter" index="0" unique_id=1348990358]
-position = Vector2(20.5, 27.5)
+position = Vector2(22, 27.5)
 shape = SubResource("RectangleShape2D_2coch")
 
 [node name="HeavyDamageEmitter" parent="." index="4" unique_id=822472442]
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="HeavyDamageEmitter" index="0" unique_id=1348990358]
-position = Vector2(20.5, 27.5)
+position = Vector2(25, 27.5)
 shape = SubResource("RectangleShape2D_11kcc")
 
 [node name="AnimationPlayer" parent="." index="5" unique_id=498136880]

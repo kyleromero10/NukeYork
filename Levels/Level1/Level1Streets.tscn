@@ -876,7 +876,7 @@ tile_set = SubResource("TileSet_m4ydb")
 position = Vector2(22, 279)
 
 [node name="Spawn2" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1587418651 groups=["ESpawns", "EnemySpawns"]]
-position = Vector2(157, 361)
+position = Vector2(398, 350)
 
 [node name="Spawn3" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=166524426 groups=["ESpawns", "EnemySpawns"]]
 position = Vector2(925, 18)
@@ -885,13 +885,13 @@ position = Vector2(925, 18)
 position = Vector2(932, 382)
 
 [node name="Spawn5" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=608680061 groups=["ESpawns", "EnemySpawns"]]
-position = Vector2(1659, 380)
+position = Vector2(1662, 366)
 
 [node name="Spawn6" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1127253459 groups=["ESpawns", "EnemySpawns"]]
-position = Vector2(2354, 382)
+position = Vector2(2350, 360)
 
 [node name="Spawn7" type="Marker2D" parent="AllSpawns/EnemySpawns" unique_id=1365438027 groups=["ESpawns", "EnemySpawns"]]
-position = Vector2(2425, 268)
+position = Vector2(2416, 271)
 
 [node name="PlayerSpawns" type="Node2D" parent="AllSpawns" unique_id=1796182922]
 

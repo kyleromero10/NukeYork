@@ -4,26 +4,21 @@ using System.Threading.Tasks;
 
 public partial class GameMaster : Node
 {
-	[Export]
-	public NetID myId;
-
+	[Export] public NetID myId;
 	[Export] public NetID localID;
-
-	[Export]
-	public bool GameStarted;
-
-	[Export] public float GameTimer = 30;
+	[Export] public bool GameStarted;
+	[Export] public float GameTimer = 10;
 	[Export] public float EnemyWaveTimer = 10;
 	[Export] public float disconnectTimer = 10;
 	public Random rand = new Random();
 	[Export] public Vector2 winnerPos = Vector2.Zero;
 	[Export] public int randLevel;
 	private int levelChoice;
+	private bool _scoreboardShown = false;
 
-	[Export]
-	public bool GameFinished = false;
-
+	[Export] public bool GameFinished = false;
 	[Export] public Control UI;
+	[Export] public ScoreboardUI scoreboardUI;
 
 	public override void _Ready()
 	{
@@ -33,144 +28,139 @@ public partial class GameMaster : Node
 
 	public override async void _Process(double delta)
 	{
-		/*if(!myId.IsSynced)
-		{
+		if (!myId.IsNetworkReady || !GenericCore.Instance.IsGenericCoreConnected)
 			return;
-		}*/
-		if(!myId.IsNetworkReady || !GenericCore.Instance.IsGenericCoreConnected)
-		{
-			return;
-		}
 
-		if(GameStarted && !GameFinished)
+		if (GameStarted && !GameFinished)
 		{
-			if(GenericCore.Instance.IsServer)
+			if (GenericCore.Instance.IsServer)
 			{
 				GameTimer -= (float)delta;
 				EnemyWaveTimer -= (float)delta;
-				
-				if(EnemyWaveTimer <= 0)
+
+				if (EnemyWaveTimer <= 0)
 				{
 					EnemyWaveTimer = 10;
 					var spawns = GetTree().GetNodesInGroup("ESpawns");
-					foreach(Marker2D spawn in spawns)
+					foreach (Marker2D spawn in spawns)
 					{
 						GD.Print("Spawning enemy at: " + spawn.GlobalPosition);
 						int enemyType = rand.Next(1, 6);
-						if(enemyType == 1 || enemyType == 2 || enemyType == 3)
+						if (enemyType == 1 || enemyType == 2)
 							enemyType = 1;
-						else if(enemyType == 4 || enemyType == 5)
+						else if (enemyType == 3 || enemyType == 4)
 							enemyType = 2;
-						else
+						else if (enemyType == 5)
 							enemyType = 3;
-						GenericCore.Instance.MainNetworkCore.NetCreateObject(enemyType + 2, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
-							Quaternion.Identity, localID.OwnerId); //Spawn an enemy.
+
+						GenericCore.Instance.MainNetworkCore.NetCreateObject(
+							enemyType + 2,
+							new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
+							Quaternion.Identity,
+							localID.OwnerId);
 					}
-					//Spawn an enemy.
 				}
 
-				//GD.Print("Game Timer: " + GameTimer);
-				if(GameTimer <= 0)
+				if (GameTimer <= 0)
 				{
-					GameFinished = true;
+					Rpc(MethodName.SetGameFinishedRPC);
 				}
 			}
-			//Check for end game conditions.
-			//If met, set GameFinished to true and do end game stuff.
 		}
 
-		if(GameFinished)
+		if (GameFinished)
 		{
-			if(GenericCore.Instance.IsServer)
+			if (!_scoreboardShown)
 			{
+				_scoreboardShown = true;
+				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+				scoreboardUI?.ShowScoreboard();
+			}
+
+			if (GenericCore.Instance.IsServer)
+			{
+				var players = GetTree().GetNodesInGroup("Player");
+				if (players.Count == 0) return;
+
 				disconnectTimer -= (float)delta;
-				var e = GetTree().GetNodesInGroup("Enemy");
-				foreach(Enemy enemy in e)
+
+				var enemies = GetTree().GetNodesInGroup("Enemy");
+				foreach (Enemy enemy in enemies)
 				{
 					GD.Print("Destroying enemy: ");
 					GenericCore.Instance.MainNetworkCore.NetDestroyObject(enemy.myId);
 				}
-				var t = GetTree().GetNodesInGroup("Player");
-				PlayerCharacter winner = (PlayerCharacter)t[0];
-				foreach(PlayerCharacter player in t)
+
+				PlayerCharacter winner = (PlayerCharacter)players[0];
+
+				foreach (PlayerCharacter player in players)
 				{
 					player.state = PlayerCharacter.PlayerState.Finish;
-					if(player.totalKills > winner.totalKills)
+
+					if (player.totalKills > winner.totalKills)
 					{
 						winner = player;
 						winnerPos = player.GlobalPosition;
 					}
 				}
+
 				GD.Print("Winner: " + winner.playerName);
 				winner.state = PlayerCharacter.PlayerState.Win;
-				foreach(PlayerCharacter player in t)
+
+				foreach (PlayerCharacter player in players)
 				{
-					if(player.myId.IsLocal)
+					if (player.myId.IsLocal)
 					{
 						player.myCamera.Position = winnerPos;
 					}
 				}
 
-				if(disconnectTimer <= 0)
+				if (disconnectTimer <= 0)
 				{
-					//GenericCore.Instance.DisconnectFromGame();
 					Rpc(MethodName.DisconnectClientsRPC);
-
 					await ToSignal(GetTree().CreateTimer(.5f), SceneTreeTimer.SignalName.Timeout);
 					GenericCore.Instance.DisconnectServer();
 				}
-
-
 			}
-
-			//Show end game screen.
 		}
 	}
 
 	public async void GameCycle()
 	{
-		//Make sure generic core is server.
-		while(!Node.IsInstanceValid(GenericCore.Instance) || !GenericCore.Instance.IsGenericCoreConnected)
+		while (!Node.IsInstanceValid(GenericCore.Instance) || !GenericCore.Instance.IsGenericCoreConnected)
 		{
 			await ToSignal(GetTree().CreateTimer(2.5f), SceneTreeTimer.SignalName.Timeout);
 		}
-		if(!GenericCore.Instance.IsServer)
-		{
-			return;
-		}
-		
 
-		//Find all NPMS
-		//Wait until they are all "ready"
-		while(!GameStarted)
+		if (!GenericCore.Instance.IsServer)
+			return;
+
+		while (!GameStarted)
 		{
-			//Find all NPMS
 			var x = GetTree().GetNodesInGroup("NPM");
-			if(x.Count>=2)
+
+			if (x.Count >= 2)
 			{
 				GameStarted = true;
 				GD.Print("-A-");
+
 				foreach (UserNpm node in x)
 				{
-					if(!node.IsReady)
-					{
+					if (!node.IsReady)
 						GameStarted = false;
-						//break;
-					}
 				}
 			}
 
-			//await ToSignal(GetTree().CreateTimer(2.5f), SceneTreeTimer.SignalName.Timeout);
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
-		 Rpc(MethodName.HideNPMsRPC);
+		Rpc(MethodName.HideNPMsRPC);
 
 		var myNPMs = GetTree().GetNodesInGroup("NPM");
 		int count = 0;
 		int count2 = 0;
 
-		randLevel = rand.Next(0, myNPMs.Count);  
+		randLevel = rand.Next(0, myNPMs.Count);
 
 		foreach (UserNpm node in myNPMs)
 		{
@@ -180,49 +170,47 @@ public partial class GameMaster : Node
 			}
 		}
 
-		foreach(UserNpm node in myNPMs)
+		foreach (UserNpm node in myNPMs)
 		{
-			if(count2 == randLevel)
-			{
+			if (count2 == randLevel)
 				levelChoice = node.LevelChoice;
-			}
 			count2++;
 		}
-		
 
-		//AddChild("Level" + randLevel, GD.Load<PackedScene>("res://Scenes/Level" + randLevel + ".tscn").Instantiate());
-		GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 6, Vector3.Zero,
-				Quaternion.Identity);   
-		//await ToSignal(GetTree().CreateTimer(.5f), SceneTreeTimer.SignalName.Timeout); 
+		GenericCore.Instance.MainNetworkCore.NetCreateObject(
+			levelChoice + 6,
+			Vector3.Zero,
+			Quaternion.Identity);
 
 		var spawns = GetTree().GetNodesInGroup("PlayerSpawns");
 
-		//Create the characters
-		foreach(UserNpm node in myNPMs)
+		foreach (UserNpm node in myNPMs)
 		{
 			Marker2D spawn = (Marker2D)spawns[count];
-			PlayerCharacter temp = (PlayerCharacter)GenericCore.Instance.MainNetworkCore.NetCreateObject(node.Character, new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
-				Quaternion.Identity, node.myID.OwnerId); //Spawn the player character.
-			//temp.playerName = "P" + (count + 1);
+
+			PlayerCharacter temp =
+				(PlayerCharacter)GenericCore.Instance.MainNetworkCore.NetCreateObject(
+					node.Character,
+					new Vector3(spawn.GlobalPosition.X, spawn.GlobalPosition.Y, 0),
+					Quaternion.Identity,
+					node.myID.OwnerId);
+
 			temp.playerName = node.PlayerName;
 			temp.currentHealth = temp.maxHealth;
 			temp.radiation = 0;
 			temp.totalKills = 0;
+
 			count++;
 			localID = temp.myId;
 		}
-
-		//GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 6, Vector3.Zero,
-		//		Quaternion.Identity, localID.OwnerId);
-
-		//GenericCore.Instance.MainNetworkCore.NetCreateObject(5, new Vector3(300, 200, 0),
-		//		Quaternion.Identity, localID.OwnerId); //Spawn an enemy for testing.
-
-		//Create the users' characters.
-		//Use Node2D or 3D spawner to spawn level.
-		//Game should be able to start.
 	}
 
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true,
+		TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void SetGameFinishedRPC()
+	{
+		GameFinished = true;
+	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
 		TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -230,20 +218,14 @@ public partial class GameMaster : Node
 	{
 		var x = GetTree().GetNodesInGroup("NPM");
 		foreach (UserNpm node in x)
-		{
 			node.Hide();
-		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
 		TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void DisconnectClientsRPC()
 	{
-		if(!GenericCore.Instance.IsServer)
-		{
+		if (!GenericCore.Instance.IsServer)
 			GenericCore.Instance.DisconnectFromGame();
-		}
 	}
-
-	
 }

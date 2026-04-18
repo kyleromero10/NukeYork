@@ -69,8 +69,12 @@ offset_bottom = 63.0
 text = "Default"
 
 [node name="GameRoot" parent="." unique_id=394154124 instance=ExtResource("3_3r1pa")]
-_portMaximum = 7000
-_portMinimum = 7010
+
+[node name="ScoreboardUI" parent="GameRoot/CanvasLayer" parent_id_path=PackedInt32Array(394154124, 233426745) index="0" unique_id=50960949]
+visible = false
+
+[node name="GameMaster" parent="GameRoot" index="3" unique_id=1639468073 node_paths=PackedStringArray("scoreboardUI") groups=["GameMaster"]]
+scoreboardUI = NodePath("../CanvasLayer/ScoreboardUI")
 
 [connection signal="pressed" from="GenericLobbySystem/HBoxContainer/LobbyBackground/Button" to="GenericLobbySystem" method="CreatNewGameServer"]
 

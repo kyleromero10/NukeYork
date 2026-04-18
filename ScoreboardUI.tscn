@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://byrpsw3h54d1o"]
+
+[ext_resource type="Script" uid="uid://dikchhng7pxib" path="res://ScoreboardUI.cs" id="1_iur8g"]
+[ext_resource type="FontFile" uid="uid://dj1whus1f2svq" path="res://Assets/font/sd_auto_pilot.ttf" id="2_hb1my"]
+
+[node name="ScoreboardUI" type="Control" unique_id=50960949 node_paths=PackedStringArray("scoreList", "titleLabel", "continueLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iur8g")
+scoreList = NodePath("Panel/scoreList")
+titleLabel = NodePath("Panel/titleLabel")
+continueLabel = NodePath("Panel/continueLabel")
+
+[node name="Panel" type="Panel" parent="." unique_id=1212635154]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -281.0
+offset_top = -198.0
+offset_right = 223.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="titleLabel" type="Label" parent="Panel" unique_id=1983360216]
+texture_filter = 1
+layout_mode = 0
+offset_left = 145.0
+offset_top = 4.0
+offset_right = 353.0
+offset_bottom = 44.0
+theme_override_fonts/font = ExtResource("2_hb1my")
+theme_override_font_sizes/font_size = 60
+text = "Match Results"
+
+[node name="scoreList" type="VBoxContainer" parent="Panel" unique_id=1804900960]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 41.0
+offset_right = 487.0
+offset_bottom = 291.0
+
+[node name="continueLabel" type="Label" parent="Panel" unique_id=1378346250]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 300.0
+offset_right = 394.0
+offset_bottom = 340.0
+theme_override_fonts/font = ExtResource("2_hb1my")
+theme_override_font_sizes/font_size = 60
+text = "Sending you back..."
