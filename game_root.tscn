@@ -8,8 +8,8 @@
 [node name="GameRoot" type="Node" unique_id=394154124 node_paths=PackedStringArray("MainNetworkCore")]
 script = ExtResource("1_pjpa4")
 MainNetworkCore = NodePath("MultiplayerSpawner")
-_portMaximum = 7000
-_portMinimum = 7010
+_portMaximum = 7010
+_portMinimum = 7000
 _localPort = 7000
 _serverAddress = "127.0.0.1"
 _maxConnections = 4
@@ -42,7 +42,6 @@ offset_bottom = 0.21295166
 columns = 2
 
 [node name="Button" type="Button" parent="CanvasLayer" unique_id=1960857104]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -53,7 +52,6 @@ offset_bottom = -142.0
 text = "HOST"
 
 [node name="Button2" type="Button" parent="CanvasLayer" unique_id=77967166]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -66,7 +64,7 @@ grow_vertical = 2
 text = "Client"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1225884149]
-_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://dps0pbrk38pa", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
+_spawnable_scenes = PackedStringArray("uid://bfgcvu4ccm8sq", "uid://gmdqc7w6tynh", "uid://b6ls3jkinchbh", "uid://ba4066lj557sk", "uid://dps0pbrk38pa", "uid://pkpd3g0mxbdq", "uid://dv7bo843ct0pb", "uid://bagjih2nddblx", "uid://dwo30rsatm61a")
 spawn_path = NodePath("../Spawnables")
 script = ExtResource("2_bxsma")
 
