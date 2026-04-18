@@ -13,6 +13,7 @@ script = ExtResource("1_nacce")
 PublicIP = "127.0.0.1"
 PrivateIP = "127.0.0.1"
 PortMinimum = 9000
+PortMaximum = 10000
 AgentSpawner = NodePath("HBoxContainer/LobbyBackground/ActiveGames/ActiveGames/MultiplayerSpawner")
 GameNameBox = NodePath("TextEdit")
 MaxGameTime = 480.0
