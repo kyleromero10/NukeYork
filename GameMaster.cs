@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class GameMaster : Node
 {
@@ -30,7 +31,7 @@ public partial class GameMaster : Node
 		GameCycle();
 	}
 
-	public override void _Process(double delta)
+	public override async void _Process(double delta)
 	{
 		/*if(!myId.IsSynced)
 		{
@@ -110,15 +111,16 @@ public partial class GameMaster : Node
 					}
 				}
 
-
-			}
-
-			if(!GenericCore.Instance.IsServer)
-			{
 				if(disconnectTimer <= 0)
 				{
-					GenericCore.Instance.DisconnectFromGame();
+					//GenericCore.Instance.DisconnectFromGame();
+					Rpc(MethodName.DisconnectClientsRPC);
+
+					await ToSignal(GetTree().CreateTimer(.5f), SceneTreeTimer.SignalName.Timeout);
+					GenericCore.Instance.DisconnectServer();
 				}
+
+
 			}
 
 			//Show end game screen.
@@ -227,6 +229,16 @@ public partial class GameMaster : Node
 		foreach (UserNpm node in x)
 		{
 			node.Hide();
+		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false,
+		TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void DisconnectClientsRPC()
+	{
+		if(!GenericCore.Instance.IsServer)
+		{
+			GenericCore.Instance.DisconnectFromGame();
 		}
 	}
 

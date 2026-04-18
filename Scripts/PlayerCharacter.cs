@@ -79,7 +79,7 @@ public partial class PlayerCharacter : CharacterBody2D
 
 			if(isInRadiation == true)
 			{
-				radiation -= (float)delta;
+				radiation -= (float)delta*5;
 				GD.Print("Radiation:" + radiation);
 			}
 
