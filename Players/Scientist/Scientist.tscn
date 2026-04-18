@@ -251,7 +251,7 @@ hitbox = NodePath("DamageEmitter")
 heavyHitbox = NodePath("HeavyDamageEmitter")
 maxHealth = 5
 currentHealth = 5
-damageMultiplier = 1
+damageMultiplier = 2
 speed = 300.0
 characterClass = 2
 

@@ -205,6 +205,9 @@ public partial class GameMaster : Node
 				Quaternion.Identity, node.myID.OwnerId); //Spawn the player character.
 			//temp.playerName = "P" + (count + 1);
 			temp.playerName = node.PlayerName;
+			temp.currentHealth = temp.maxHealth;
+			temp.radiation = 0;
+			temp.totalKills = 0;
 			count++;
 			localID = temp.myId;
 		}
@@ -212,8 +215,8 @@ public partial class GameMaster : Node
 		//GenericCore.Instance.MainNetworkCore.NetCreateObject(levelChoice + 6, Vector3.Zero,
 		//		Quaternion.Identity, localID.OwnerId);
 
-		GenericCore.Instance.MainNetworkCore.NetCreateObject(5, new Vector3(300, 200, 0),
-				Quaternion.Identity, localID.OwnerId); //Spawn an enemy for testing.
+		//GenericCore.Instance.MainNetworkCore.NetCreateObject(5, new Vector3(300, 200, 0),
+		//		Quaternion.Identity, localID.OwnerId); //Spawn an enemy for testing.
 
 		//Create the users' characters.
 		//Use Node2D or 3D spawner to spawn level.

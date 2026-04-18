@@ -160,6 +160,7 @@ hitbox = NodePath("DamageEmitter")
 maxHealth = 7
 currentHealth = 7
 damageMultiplier = 2
+prepAttackTime = 0.5
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1

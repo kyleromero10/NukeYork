@@ -26,6 +26,7 @@ properties/5/replication_mode = 1
 [node name="GameMaster" type="Node" unique_id=1639468073 node_paths=PackedStringArray("myId")]
 script = ExtResource("1_5yk56")
 myId = NodePath("MultiplayerSynchronizer")
+GameTimer = 120.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=341752058]
 replication_config = SubResource("SceneReplicationConfig_yy1gc")

@@ -160,6 +160,7 @@ maxHealth = 3
 currentHealth = 3
 damageMultiplier = 1
 speed = 150.0
+prepAttackTime = 0.5
 
 [node name="Sprite2D" parent="." index="0" unique_id=1509948933]
 texture_filter = 1
